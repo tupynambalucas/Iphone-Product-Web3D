@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iphone</title>
+    <link rel="stylesheet" href="index.css">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/dlu7kcs.css">
+    <link rel="stylesheet" href="fonts.css">
+
+    <!-- Midnight -->
+    <script src="https://cdn.jsdelivr.net/combine/npm/jquery@1.11,npm/midnight.js@1.1"></script>
+    <script>
+        // Start midnight
+        $(document).ready(function(){
+          // Change this to the correct selector.
+          $('nav.fixed').midnight();
+        });
+    </script>
+</head>
+<body>
+<nav class="fixed">
+    <!-- Your standard header -->
+    <div class="midnightHeader default">
+        <img src="img/logo/logo-black.svg">
+        <h1 class="gibson-regular">Iphone 16</h1>
+    </div>
+    
+    <!-- A header with butterflies -->
+    <div class="midnightHeader black">
+        <img src="img/logo/logo-white.svg">
+        <h1 class="gibson-regular">Iphone 16</h1>
+    </div>
+</nav>
+<section class="specs" data-midnight="default">
+    <div id="spec1" data-midnight="default">
+        <div>
+            <!-- <img src="img/a18.jpg"> -->
+            <div>
+                <div>
+                    <h2 class="gibson-bold">Ágil como nunca. Inteligente como sempre quis.</h2>
+                    <p class="gibson-regular">Apresentamos o A18, <span style="color: snow;">desenvolvido especialmente para potencializar a Apple Intelligence</span> e muito além disso. Este chip está duas gerações à frente do A16 Bionic, presente no iPhone 15, entregando um salto de desempenho e recursos avançados de fotografia, como Estilos Fotográficos e Controle da Câmera.<br><br> E o melhor: tudo isso com um consumo de energia otimizado, ajudando a bateria a durar ainda mais.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="spec2" data-midnight="black">
+
+    </div>
+    <div id="spec3"  data-midnight="default">
+
+    </div>
+</section>
+<div id="rendererDiv" class="rendererDiv">
+    <video id="fortniteVideo" style="display: none;"></video>
+</div>
+<div id="rendererDivBackground"></div>
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+            "GLTFLoader": "https://unpkg.com/three@0.169.0/examples/jsm/loaders/GLTFLoader.js",
+            "rapier": "https://cdn.skypack.dev/@dimforge/rapier3d-compat",
+            "tween": "https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.5.0/dist/tween.esm.js"
+        }
+    }
+</script>
+<script type="module" src="index.js"></script>
+</body>
+</html>

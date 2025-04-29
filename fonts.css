@@ -1,0 +1,30 @@
+.gibson-thin{
+    font-family: "canada-type-gibson", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+}
+.gibson-light{
+    font-family: "canada-type-gibson", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+}
+.gibson-regular{
+    font-family: "canada-type-gibson", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+.gibson-medium{
+    font-family: "canada-type-gibson", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+.gibson-bold{
+    font-family: "canada-type-gibson", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+.gibson-italic{
+    font-family: "canada-type-gibson", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+}

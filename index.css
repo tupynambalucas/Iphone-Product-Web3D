@@ -1,0 +1,134 @@
+*{margin: 0;}
+
+body,html{
+    height: 100%;
+    width: 100%;
+}
+nav.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    height: 8vh!important;
+    pointer-events: none;
+}
+.midnightHeader{
+    width: 100%;
+    overflow-x: hidden!important;
+}
+.midnightHeader img{
+    height: 4vh;
+    width: 3.5vh;
+    position: absolute;
+    left: 4vw;
+    top: 2vh;
+    opacity: 1;
+}
+.midnightHeader h1{
+    position: absolute;
+    font-size: 3.2vh;
+    left: 10vw;
+    top: 2.77vh;
+}
+.midnightHeader.default {
+    background: white;
+    color: black;
+}
+.midnightHeader.black {
+    background: black;
+    color: snow;
+}
+.rendererDiv{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 20;
+}
+#rendererDivBackground{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #0f0f0f;
+    height: 100vh;
+    width: 100%;
+    z-index: 1;
+    transition: 1s;
+}
+.rendererDiv canvas{
+    height: 100%;
+    width: 100%;
+}
+
+.specs{
+    position: relative;
+    float: right;
+    height: 300vh;
+    width: 50%;
+    z-index: 10;
+    box-shadow: -9px 1px 37px -5px rgba(0,0,0,0.75);
+    -webkit-box-shadow: -9px 1px 37px -5px rgba(0,0,0,0.75);
+    -moz-box-shadow: -9px 1px 37px -5px rgba(0,0,0,0.75);
+}
+.specs div{
+    position: relative;
+    float: right;
+}
+
+#spec1{
+    height: 100vh;
+    width: 50vw;
+    background: black;
+    align-items: center;
+}
+#spec1 div{
+    height: 100vh;
+    width: 50vw;
+    flex-wrap: nowrap;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#spec1 div img{
+    height: 40vh;
+    object-fit: cover;
+    width: 50vw;
+}
+#spec1 div div{
+    height: 100vh;
+    align-items: center;
+    text-align: left;
+    width: 50vw;
+}
+#spec1 div div div{
+    width: 40vw;
+    height: auto;
+    align-items: start;
+}
+#spec1 div div div h1{
+    color: #EE94CA;
+    font-size: 4vh;
+    margin-top: 2.5vh;
+}
+#spec1 div div h2{
+    margin-top: 1vh;
+    color: #EE94CA;
+    font-size: 4vh;
+}
+#spec1 div div p{
+    margin-top: 6vh;
+    color: gray;
+    line-height: 2.6vh;
+    font-size: 2.5vh;
+    letter-spacing: 0.05vw;
+}
+#spec2{
+    background: gray;
+    height: 100vh;
+    width: 50vw;
+}
+#spec3{
+    background: yellowgreen;
+    height: 100vh;
+    width: 50vw;
+}
