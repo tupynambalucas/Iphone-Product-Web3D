@@ -198,7 +198,7 @@ function specsScroll(e) {
 function loadScreen(o,type,src) {
     if (type=='video') {
         let video = document.getElementById( 'fortniteVideo' );
-        video.src = `./${src}`
+        video.src = src
         video.currentTime = 0;
         let texture = new THREE.VideoTexture( video );
         // texture.flipY = true;
@@ -213,7 +213,7 @@ function loadScreen(o,type,src) {
         
     }
     if (type=='image') {
-        let source = `./${src}`
+        let source = src
         let texture = textureLoader.load(source);
         texture.rotation = -0.03;
         texture.center = new THREE.Vector2(0.5, 0.5);
