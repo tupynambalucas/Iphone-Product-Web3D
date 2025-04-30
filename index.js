@@ -10,7 +10,7 @@ var textureLoader = new THREE.TextureLoader();
 let gltfLoader = new GLTFLoader()
 var clock = new THREE.Clock()
 
-let camera,scene,renderer,delta,object,a18,directionalLight,tween,screen
+let camera,scene,renderer,delta,object,a18,directionalLight,tweenRotation,screen
 
 let iphoneColorMeshes = new Array
 let iphoneColors = {
@@ -97,7 +97,6 @@ function init() {
                     scene.add( a18 );
                     addEventListener('mousemove', (event) => {
                         event.preventDefault();
-                        console.log('aaaa')
                         let mouseX = (event.clientX / window.innerWidth) * 2 - 1;
                         let mouseY = (event.clientY / window.innerHeight) * 2 - 1;
                         a18.rotation.y = THREE.MathUtils.lerp(a18.rotation.x, (mouseX * Math.PI) / -40, 1)
@@ -122,17 +121,16 @@ function init() {
     
         }
     )
-    function animate() {
-        delta = clock.getDelta()
-        requestAnimationFrame( animate );
-        // object.rotation.y -= 0.007
-        TWEEN.update()
-        renderer.render( scene, camera )
-    }
-
 }
 
 init()
+function animate() {
+    delta = clock.getDelta()
+    requestAnimationFrame( animate );
+    // object.rotation.y -= 0.007
+    if(TWEEN) TWEEN.update()
+    renderer.render( scene, camera )
+}
 
 function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -149,26 +147,30 @@ let specs = [
     'camera'
 ]
 let down = true
-let scrolled = false
 let i = 0
 function specsScroll(e) {
     const scrollDirection = e.deltaY < 0 ? 1 : 0
-    console.log(scrollDirection === 1 ? "up" : "down")
+    // console.log(scrollDirection === 1 ? "up" : "down")
     if(scrollDirection===0){
         i += 1
-        if (i>=2) {
+        if (i>2) {
             i=2
+        } else {
+            let scrollDiv = document.getElementById(specs[i]).offsetTop;
+            console.log(specs[i])
+            window.scrollTo({ top: scrollDiv, behavior: 'smooth'})
         }
-        let scrollDiv = document.getElementById(`${specs[i]}`).offsetTop;
-        window.scrollTo({ top: scrollDiv, behavior: 'smooth'})
     } else {
         i -= 1
-        if (i<=0) {
+        if (i<0) {
             i=0
+        } else {
+            let scrollDiv = document.getElementById(specs[i]).offsetTop;
+            console.log(specs[i])
+            window.scrollTo({ top: scrollDiv, behavior: 'smooth'})
         }
-        let scrollDiv = document.getElementById(`${specs[i]}`).offsetTop;
-        window.scrollTo({ top: scrollDiv, behavior: 'smooth'})
     }
+    console.log(i)
     if (specs[i]=='spec1') {
         rendererDivBackground.style.background = '#0f0f0f'
         rotate({x: 0,y:200,z:90});
@@ -176,7 +178,7 @@ function specsScroll(e) {
         changeColor(iphoneColorMeshes,iphoneColors.pink)
     }
     if (specs[i]=='spec2') {
-        rendererDivBackground.style.background = 'snow'
+        rendererDivBackground.style.background = 'lightgray'
         rotate({x: 0,y:220,z:0});
         loadScreen(screen,'image', 'img/iphone-screenshot.png')
         changeColor(iphoneColorMeshes,iphoneColors.ultraMarine)
@@ -184,7 +186,6 @@ function specsScroll(e) {
     if (specs[i]=='spec3') {
         rendererDivBackground.style.background = 'white'
         rotate({x: 0,y:50,z:90});
-        loadScreen(screen,'image', 'img/iphone-screenshot.png')
         changeColor(iphoneColorMeshes,iphoneColors.grayedGreen)
     }
 }
@@ -224,22 +225,39 @@ function rotate( deg ) {
     // axis is a THREE.Vector3
     let rotation = new THREE.Vector3(THREE.MathUtils.degToRad( deg.x ),THREE.MathUtils.degToRad( deg.y ),THREE.MathUtils.degToRad( deg.z ))
       // we need to use radians
-    tween = new TWEEN.Tween(object.rotation)
+    tweenRotation = new TWEEN.Tween(object.rotation)
      .to(rotation)
      .delay(0)
      .duration(1500)
      .easing(TWEEN.Easing.Cubic.InOut) 
-    tween.start()
-    console.log(tween)
+    tweenRotation.start()
 }
 function changeColor(object,color) {
+    function hexToHSL(hex) {
+        const color = new THREE.Color(hex);
+        const hsl = {};
+        color.getHSL(hsl);
+        return hsl;
+      }
+    var HSLColor = hexToHSL(color)
     object.forEach((o) =>{
-        var colorValue = parseInt ( color.replace("#","0x"), 16 );
         if (color==iphoneColors.black) {
             directionalLight.intensity = 5
         } else {
             directionalLight.intensity = 0.7
         }
-        o.material.color.set(colorValue)
+        console.log(o.material.color)
+        const hsl = {};
+        o.material.color.getHSL(hsl);
+        let colorTween = new TWEEN.Tween(hsl)
+        .to({
+            h: HSLColor.h,
+            s: HSLColor.s,
+            l: HSLColor.l
+        }, 1000)// Change to red over 1 second
+        .onUpdate(() => {
+            o.material.color.setHSL(hsl.h, hsl.s, hsl.l);
+        })
+        colorTween.start()
     })
 }
