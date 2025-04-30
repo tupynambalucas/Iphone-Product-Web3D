@@ -67,13 +67,11 @@ function init() {
             scene.add( directionalLight2 )
             scene.add( directionalLight2.target );
             directionalLight2.target = object
-            let HSLColor = hexToHSL(color)
             object.traverse(o => {
                 o.receiveShadow = true
                 if (o.isMesh) {
                     if (o.name == 'Object_67'||o.name =='Object_62' ||o.name =='Object_54'||o.name =='Object_52'||o.name =='Object_64'||o.name =='Object_46'||o.name =='Object_29'||o.name =='Object_33'||o.name =='Object_72'||o.name =='Object_86') {
                         iphoneColorMeshes.push(o)
-                        
                     }
                     if (o.name=='Object_18') {
                         screen = o
@@ -82,7 +80,7 @@ function init() {
                 }
             })
             changeColor(iphoneColorMeshes,iphoneColors.pink)
-            // rotate(object,{x: 0,y:200,z:90});
+            rotate(object,{x: 0,y:200,z:90});
             gltfLoader.load(
                 // resource URL
                 'three/models/a18/scene.gltf',
