@@ -10,7 +10,7 @@ nav.fixed {
     left: 0;
     right: 0;
     z-index: 9999;
-    height: 8vh!important;
+    height: 6vh!important;
     pointer-events: none;
 }
 .midnightHeader{
@@ -18,18 +18,18 @@ nav.fixed {
     overflow-x: hidden!important;
 }
 .midnightHeader img{
-    height: 4vh;
-    width: 3.5vh;
+    height: 3vh;
+    width: 2.5vh;
     position: absolute;
     left: 4vw;
-    top: 2vh;
+    top: 1.5vh;
     opacity: 1;
 }
 .midnightHeader h1{
     position: absolute;
-    font-size: 3.2vh;
-    left: 10vw;
-    top: 2.77vh;
+    font-size: 2.6vh;
+    left: 22vw;
+    top: 1.8vh;
 }
 .midnightHeader.default {
     background: white;
@@ -43,7 +43,7 @@ nav.fixed {
     position: fixed;
     height: 100%;
     width: 100%;
-    z-index: 20;
+    z-index: 100;
 }
 #rendererDivBackground{
     position: fixed;
@@ -52,7 +52,7 @@ nav.fixed {
     background: #0f0f0f;
     height: 100vh;
     width: 100%;
-    z-index: 1;
+    z-index: 0;
     transition: 1s;
 }
 .rendererDiv canvas{
@@ -62,9 +62,8 @@ nav.fixed {
 
 .specs{
     position: relative;
-    float: right;
-    height: 300vh;
-    width: 50%;
+    height: 200vh;
+    width: 100%;
     z-index: 10;
     box-shadow: -9px 1px 37px -5px rgba(0,0,0,0.75);
     -webkit-box-shadow: -9px 1px 37px -5px rgba(0,0,0,0.75);
@@ -123,12 +122,125 @@ nav.fixed {
     letter-spacing: 0.05vw;
 }
 #spec2{
-    background: gray;
+    background: lightgray;
+    height: 100vh;
+    width: 50vw;
+    align-items: center;
+}
+#spec2 div{
+    height: 100vh;
+    width: 50vw;
+    flex-wrap: nowrap;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#spec2 div div{
+    height: 100vh;
+    align-items: center;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: auto;
+}
+#spec2 div div div:nth-of-type(1){
+    width: 40vw;
+    height: auto;
+    align-items: start;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+#spec2 div div .spec2-content h1{
+    color: #85ADAC;
+    font-size: 4vh;
+    margin-top: 2.5vh;
+}
+#spec2 div div .spec2-content h2{
+    margin-top: 1vh;
+    color: #85ADAC;
+    font-size: 4vh;
+}
+#spec2 div div .spec2-content p{
+    margin-top: 6vh;
+    color: gray;
+    line-height: 2.6vh;
+    letter-spacing: 0.05vw;
+    font-size: 2.5vh;
+}
+#spec2 div div .spec2-hours{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 40vw;
+    justify-content: space-between;
+    margin-top: 5vh;
+}
+#spec2 div div .spec2-hours div{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 10vh;
+    max-width: 15vw;
+    justify-content: left;
+    align-items: start;
+    
+}
+#spec2 div div.spec2-hours div h1{
+    color: #85ADAC;
+    font-size: 3vh;
+    margin-top: 0.6vh;
+    margin-bottom: 0.6vh;
+
+}
+#spec2 div div .spec2-hours div p{
+    color: black;
+    font-size: 2vh;
+
+}
+#spec3{
+    background: #0f0f0f;
     height: 100vh;
     width: 50vw;
 }
-#spec3{
-    background: yellowgreen;
+
+#cam{
+    position: relative;
     height: 100vh;
+    width: 100%;
+    background: snow;
+}
+
+.cam-conteudo{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
     width: 50vw;
+    top: 15vh;
+    left: 10vw;
+    height: auto;
+}
+
+.cam-conteudo-title {
+    width: 40vw;
+    font-size: 4vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+.cam-conteudo-title h1{
+    color: #EE94CA;
+}
+.cam-conteudo-title h2{
+    color: black;
+}
+.cam-conteudo p{
+    margin-top: 4vh;
+    font-size: 2.5vh;
+    line-height: 3.5vh;
+    letter-spacing: 0.05vw;
 }

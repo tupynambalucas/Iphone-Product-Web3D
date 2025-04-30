@@ -67,11 +67,13 @@ function init() {
             scene.add( directionalLight2 )
             scene.add( directionalLight2.target );
             directionalLight2.target = object
+            let HSLColor = hexToHSL(color)
             object.traverse(o => {
                 o.receiveShadow = true
                 if (o.isMesh) {
                     if (o.name == 'Object_67'||o.name =='Object_62' ||o.name =='Object_54'||o.name =='Object_52'||o.name =='Object_64'||o.name =='Object_46'||o.name =='Object_29'||o.name =='Object_33'||o.name =='Object_72'||o.name =='Object_86') {
                         iphoneColorMeshes.push(o)
+                        
                     }
                     if (o.name=='Object_18') {
                         screen = o
@@ -80,7 +82,7 @@ function init() {
                 }
             })
             changeColor(iphoneColorMeshes,iphoneColors.pink)
-            rotate({x: 0,y:200,z:90});
+            // rotate(object,{x: 0,y:200,z:90});
             gltfLoader.load(
                 // resource URL
                 'three/models/a18/scene.gltf',
@@ -94,7 +96,7 @@ function init() {
                     a18.traverse(o => {
                         o.receiveShadow = true
                     });
-                    scene.add( a18 );
+                    // scene.add( a18 );
                     addEventListener('mousemove', (event) => {
                         event.preventDefault();
                         let mouseX = (event.clientX / window.innerWidth) * 2 - 1;
@@ -143,8 +145,7 @@ let rendererDivBackground = document.getElementById('rendererDivBackground')
 let specs = [
     'spec1',
     'spec2',
-    'spec3',
-    'camera'
+    'cam'
 ]
 let down = true
 let i = 0
@@ -173,20 +174,26 @@ function specsScroll(e) {
     console.log(i)
     if (specs[i]=='spec1') {
         rendererDivBackground.style.background = '#0f0f0f'
-        rotate({x: 0,y:200,z:90});
+        rotate(object,{x: 0,y:200,z:90});
+        move(object,{x:14,y:0,z:30})
         loadScreen(screen,'video', 'video/fortnite.mp4')
         changeColor(iphoneColorMeshes,iphoneColors.pink)
+        move(directionalLight,{x:-40,y:10,z:-10})
     }
     if (specs[i]=='spec2') {
-        rendererDivBackground.style.background = 'lightgray'
-        rotate({x: 0,y:220,z:0});
-        loadScreen(screen,'image', 'img/iphone-screenshot.png')
-        changeColor(iphoneColorMeshes,iphoneColors.ultraMarine)
-    }
-    if (specs[i]=='spec3') {
-        rendererDivBackground.style.background = 'white'
-        rotate({x: 0,y:50,z:90});
+        rendererDivBackground.style.background = 'black'
+        rotate(object,{x: 0,y:220,z:0});
+        move(object,{x:14,y:0,z:30})
+        loadScreen(screen,'image', 'img/iphone-charged.png')
         changeColor(iphoneColorMeshes,iphoneColors.grayedGreen)
+        move(directionalLight,{x:-40,y:10,z:-10})
+        
+    }
+    if (specs[i]=='cam') {
+        rotate(object,{x:0,y:0,z:90});
+        changeColor(iphoneColorMeshes,iphoneColors.pink)
+        move(object, {x:4,y:-5.5,z:-2})
+        move(directionalLight,{x:0,y:0,z:-20})
     }
 }
 
@@ -210,7 +217,7 @@ function loadScreen(o,type,src) {
     if (type=='image') {
         let source = `../${src}`
         let texture = textureLoader.load(source);
-        texture.rotation = -0.02;
+        texture.rotation = -0.03;
         texture.center = new THREE.Vector2(0.5, 0.5);
         texture.wrapT = THREE.RepeatWrapping;
         texture.wrapS = THREE.RepeatWrapping;
@@ -221,26 +228,31 @@ function loadScreen(o,type,src) {
     }
 }
 
-function rotate( deg ) {
+function rotate(o, deg ) {
     // axis is a THREE.Vector3
     let rotation = new THREE.Vector3(THREE.MathUtils.degToRad( deg.x ),THREE.MathUtils.degToRad( deg.y ),THREE.MathUtils.degToRad( deg.z ))
       // we need to use radians
-    tweenRotation = new TWEEN.Tween(object.rotation)
+    tweenRotation = new TWEEN.Tween(o.rotation)
      .to(rotation)
      .delay(0)
      .duration(1500)
      .easing(TWEEN.Easing.Cubic.InOut) 
     tweenRotation.start()
 }
-function changeColor(object,color) {
-    function hexToHSL(hex) {
-        const color = new THREE.Color(hex);
-        const hsl = {};
-        color.getHSL(hsl);
-        return hsl;
-      }
-    var HSLColor = hexToHSL(color)
-    object.forEach((o) =>{
+function move(o, cords ) {
+    // axis is a THREE.Vector3
+    let position = new THREE.Vector3(cords.x,cords.y,cords.z)
+      // we need to use radians
+    let tweenPosition = new TWEEN.Tween(o.position)
+     .to(position)
+     .delay(0)
+     .duration(1500)
+     .easing(TWEEN.Easing.Cubic.InOut) 
+    tweenPosition.start()
+}
+function changeColor(array,color) {
+    let HSLColor = hexToHSL(color)
+    array.forEach((o) =>{
         if (color==iphoneColors.black) {
             directionalLight.intensity = 5
         } else {
@@ -260,4 +272,11 @@ function changeColor(object,color) {
         })
         colorTween.start()
     })
+}
+
+function hexToHSL(hex) {
+    const color = new THREE.Color(hex);
+    const hsl = {};
+    color.getHSL(hsl);
+    return hsl;
 }
