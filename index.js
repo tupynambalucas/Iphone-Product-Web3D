@@ -94,7 +94,7 @@ function init() {
                     a18.traverse(o => {
                         o.receiveShadow = true
                     });
-                    // scene.add( a18 );
+                    scene.add( a18 );
                     addEventListener('mousemove', (event) => {
                         event.preventDefault();
                         let mouseX = (event.clientX / window.innerWidth) * 2 - 1;
@@ -173,25 +173,28 @@ function specsScroll(e) {
     if (specs[i]=='spec1') {
         rendererDivBackground.style.background = '#0f0f0f'
         rotate(object,{x: 0,y:200,z:90});
-        move(object,{x:14,y:0,z:30})
+        move(object,{x:14,y:0,z:30}, 1500)
+        move(a18,{x:-3,y:6,z:20}, 750)
         loadScreen(screen,'video', 'video/fortnite.mp4')
         changeColor(iphoneColorMeshes,iphoneColors.pink)
-        move(directionalLight,{x:-40,y:10,z:-10})
+        move(directionalLight,{x:-40,y:10,z:-10}, 1500)
     }
     if (specs[i]=='spec2') {
         rendererDivBackground.style.background = 'black'
         rotate(object,{x: 0,y:220,z:0});
-        move(object,{x:14,y:0,z:30})
+        move(object,{x:14,y:0,z:30},1500)
+        move(a18,{x:-3,y:20,z:20},200)
+        a18.position.set(-3,6,20)
         loadScreen(screen,'image', 'img/iphone-charged.png')
         changeColor(iphoneColorMeshes,iphoneColors.grayedGreen)
-        move(directionalLight,{x:-40,y:10,z:-10})
+        move(directionalLight,{x:-40,y:10,z:-10},1500)
         
     }
     if (specs[i]=='cam') {
         rotate(object,{x:0,y:0,z:90});
         changeColor(iphoneColorMeshes,iphoneColors.pink)
-        move(object, {x:4,y:-5.5,z:-2})
-        move(directionalLight,{x:0,y:0,z:-20})
+        move(object, {x:4,y:-5.5,z:-2}, 1500)
+        move(directionalLight,{x:0,y:0,z:-20},1500)
     }
 }
 
@@ -237,14 +240,14 @@ function rotate(o, deg ) {
      .easing(TWEEN.Easing.Cubic.InOut) 
     tweenRotation.start()
 }
-function move(o, cords ) {
+function move(o, cords, duration ) {
     // axis is a THREE.Vector3
     let position = new THREE.Vector3(cords.x,cords.y,cords.z)
       // we need to use radians
     let tweenPosition = new TWEEN.Tween(o.position)
      .to(position)
      .delay(0)
-     .duration(1500)
+     .duration(duration)
      .easing(TWEEN.Easing.Cubic.InOut) 
     tweenPosition.start()
 }
