@@ -11,7 +11,7 @@ var textureLoader = new THREE.TextureLoader();
 let gltfLoader = new GLTFLoader()
 var clock = new THREE.Clock()
 let passiveRotation = false
-let camera,scene,renderer,delta,object,a18,directionalLight,tweenRotation,screen
+let camera,scene,renderer,delta,object,a18,directionalLight,tweenRotation,screen,pointLightSpherePivot
 
 let iphoneColorMeshes = new Array
 let iphoneColors = {
@@ -32,6 +32,17 @@ function init() {
 
     scene.fog = new THREE.Fog( 0xffffff, 0, 10000 );
 
+    // PointLight Rotation
+
+    pointLightSpherePivot = new THREE.Object3D()
+    let pointLight = new THREE.PointLight( 0xff0000, 1, 1000, 0 );
+    pointLightSpherePivot.position.set(14,0,30)
+    pointLight.position.set(8,0,8);
+    const sphereSize = 1;
+    const pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
+    scene.add( pointLightHelper );
+    pointLightSpherePivot.add( pointLight );
+    scene.add(pointLightSpherePivot);
     // const light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.4 );
     // light.position.set( 0.5, 1, 0.75 );
     // scene.add( light );
@@ -130,6 +141,8 @@ function animate() {
     if (passiveRotation) {
         object.rotation.y -= 0.007   
     }
+    pointLightSpherePivot.rotateY(0.01)
+    pointLightSpherePivot.rotateX(0.01)
     if(TWEEN) TWEEN.update()
     renderer.render( scene, camera )
 }
@@ -143,8 +156,8 @@ function onWindowResize() {
 addEventListener("wheel", specsScroll)
 let rendererDivBackground = document.getElementById('rendererDivBackground')
 let specs = [
-    'spec1',
-    'spec2',
+    'spec1Header',
+    'spec2Header',
     'cam'
 ]
 let i = 0
@@ -152,72 +165,82 @@ let shouldRun = true
 let prevState
 function specsScroll(e) {
     const scrollDirection = e.deltaY < 0 ? 1 : 0
-    // console.log(scrollDirection === 1 ? "up" : "down")
-    if(scrollDirection===0){
-        i += 1
-        if (i>2) {
-            shouldRun = false
-            i=2
-        } else {
-            shouldRun = true
-            let scrollDiv = document.getElementById(specs[i]).offsetTop;
-            window.scrollTo({ top: scrollDiv, behavior: 'smooth'})
+    let pageOffSett = window.pageYOffset
+    console.log(pageOffSett)
+    if (pageOffSett>4320) {
+        if (pageOffSett>5320) {
+            rotate(object,{x: 0,y:0,z:0});
+            move(object,{x:-14.5,y:0,z:30},1500)
         }
     } else {
-        i -= 1
-        if (i<0) {
-            shouldRun = false
-            i=0
-        } else {
-            shouldRun = true
-            let scrollDiv = document.getElementById(specs[i]).offsetTop;
-            window.scrollTo({ top: scrollDiv, behavior: 'smooth'})
-        }
-    }
-    if (shouldRun) {
-        if (specs[i]=='spec1') {
-            rendererDiv.style.zIndex = '100'
-            rendererDivBackground.style.background = '#0f0f0f'
-            passiveRotation = false
-            rotate(object,{x: 0,y:200,z:90});
-            move(object,{x:14,y:0,z:30}, 1500)
-            move(a18,{x:-3,y:6,z:20}, 750)
-            textureCrossfade(screen,1000,'video', 'video/fortnite.mp4')
-            changeColor(iphoneColorMeshes,iphoneColors.pink)
-            move(directionalLight,{x:-40,y:10,z:-10}, 1500)
-        }
-        if (specs[i]=='spec2') {
-            rendererDivBackground.style.background = 'black'
-            rotate(object,{x: 0,y:220,z:0});
-            move(object,{x:14,y:0,z:30},1500)
-            move(a18,{x:-3,y:20,z:20},200)
-            a18.position.set(-3,6,20)
-            passiveRotation = false
-            textureCrossfade(screen,1000,'image', 'img/iphone-charged.png')
-            changeColor(iphoneColorMeshes,iphoneColors.grayedGreen)
-            move(directionalLight,{x:-40,y:10,z:-10},1500)
-            if (prevState=='cam') {
-                setTimeout(() => {
-                    rendererDiv.style.zIndex = '5'
-                }, "1000");
+
+        if(scrollDirection===0){
+            i += 1
+            if (i>2) {
+                shouldRun = false
+                i=2
             } else {
-                setTimeout(() => {
-                    rendererDiv.style.zIndex = '5'
-                }, "500");
+                shouldRun = true
+                let scrollDiv = document.getElementById(specs[i]).offsetTop;
+                window.scrollTo({ top: scrollDiv, behavior: 'smooth'})
+            }
+        } else {
+            i -= 1
+            if (i<0) {
+                shouldRun = false
+                i=0
+            } else {
+                shouldRun = true
+                let scrollDiv = document.getElementById(specs[i]).offsetTop;
+                window.scrollTo({ top: scrollDiv, behavior: 'smooth'})
             }
         }
-        if (specs[i]=='cam') {
-            rendererDiv.style.zIndex = '100'
-            passiveRotation = false
-            move(object, {x:4,y:-5.5,z:-2}, 1500)
-            move(directionalLight,{x:0,y:0,z:-20},1500)
-            setTimeout(() => {
-                rotate(object,{x:0,y:0,z:90});
+        if (shouldRun) {
+            if (specs[i]=='spec1Header') {
+                rendererDiv.style.zIndex = '100'
+                rendererDivBackground.style.background = '#F5F5F7'
+                passiveRotation = false
+                rotate(object,{x: 0,y:200,z:90});
+                move(object,{x:14,y:0,z:30}, 1500)
+                move(a18,{x:-3,y:6,z:20}, 750)
+                textureCrossfade(screen,1000,'video', 'video/fortnite.mp4')
                 changeColor(iphoneColorMeshes,iphoneColors.pink)
-            }, "500");
-    
-        }   
+                move(directionalLight,{x:-40,y:10,z:-10}, 1500)
+            }
+            if (specs[i]=='spec2Header') {
+                rendererDivBackground.style.background = 'black'
+                rotate(object,{x: 0,y:0,z:0});
+                move(object,{x:14.5,y:0,z:30},1500)
+                move(a18,{x:-3,y:20,z:20},200)
+                a18.position.set(-3,6,20)
+                passiveRotation = false
+                textureCrossfade(screen,1000,'image', 'img/iphone-charged.png')
+                changeColor(iphoneColorMeshes,iphoneColors.ultraMarine)
+                move(directionalLight,{x:-40,y:10,z:-10},1500)
+                if (prevState=='cam') {
+                    setTimeout(() => {
+                        rendererDiv.style.zIndex = '5'
+                    }, "1000");
+                } else {
+                    setTimeout(() => {
+                        rendererDiv.style.zIndex = '5'
+                    }, "500");
+                }
+            }
+            if (specs[i]=='cam') {
+                rendererDiv.style.zIndex = '100'
+                passiveRotation = false
+                move(object, {x:4,y:-5.5,z:-2}, 1500)
+                move(directionalLight,{x:0,y:0,z:-20},1500)
+                setTimeout(() => {
+                    rotate(object,{x:0,y:0,z:90});
+                    changeColor(iphoneColorMeshes,iphoneColors.pink)
+                }, "500");
+        
+            }   
+        }
     }
+    console.log(pageOffSett)
     prevState = specs[i]
 }
 
@@ -272,11 +295,9 @@ function textureCrossfade(o,duration,type,src) {
         .duration(duration)
         .easing(TWEEN.Easing.Cubic.InOut)
         .onUpdate(() => {
-            console.log(o.material.opacity)
         })
         .onComplete(() => {
             if (type=='video') {
-                console.log(o.material.opacity)
                 let video = document.getElementById( 'fortniteVideo' );
                 video.src = src
                 video.currentTime = 0;
@@ -317,9 +338,7 @@ function textureCrossfade(o,duration,type,src) {
                 o.material.needsUpdate = true; 
             })
             .onComplete(() => {
-                console.log('terminou animação')
             }).onUpdate(() =>{
-                console.log(o.material.opacity)
             })
             tweenTextureOpacity2.start()
     })
@@ -333,11 +352,12 @@ function hexToHSL(hex) {
 }
 let iphoneDesign = document.getElementById('iphoneDesign')
 let iphoneBatery = document.getElementById('iphoneBatery')
-iphoneDesign.addEventListener("mouseover", (event) => {
+iphoneDesign.addEventListener("mouseenter", (event) => {
     rotate(object,{x: 0,y:0,z:0});
     changeColor(iphoneColorMeshes,iphoneColors.ultraMarine)
-})
-iphoneBatery.addEventListener("mouseover", (event) => { 
+}, false)
+iphoneBatery.addEventListener("mouseenter", (event) => { 
     rotate(object,{x: 0,y:220,z:0});
     changeColor(iphoneColorMeshes,iphoneColors.grayedGreen)
-})
+}, false)
+

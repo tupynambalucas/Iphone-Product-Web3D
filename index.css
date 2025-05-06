@@ -28,7 +28,7 @@ nav.fixed {
 .midnightHeader h1{
     position: absolute;
     font-size: 2.6vh;
-    left: 22vw;
+    left: 18vw;
     top: 1.8vh;
 }
 .midnightHeader.default {
@@ -49,7 +49,7 @@ nav.fixed {
     position: fixed;
     top: 0;
     left: 0;
-    background: #0f0f0f;
+    background: #F5F5F7;
     height: 100vh;
     width: 100%;
     z-index: 0;
@@ -70,16 +70,21 @@ nav.fixed {
     position: relative;
     float: right;
 }
-
+.spec1-header{
+    height: 6vh!important;
+    position: relative;
+    width: 55vw;
+    background: black;
+}
 #spec1{
-    height: 100vh;
-    width: 50vw;
+    height: 94vh;
+    width: 55vw;
     background: black;
     align-items: center;
 }
 #spec1 div{
     height: 100vh;
-    width: 50vw;
+    width: 55vw;
     flex-wrap: nowrap;
     display: flex;
     flex-direction: column;
@@ -94,10 +99,10 @@ nav.fixed {
     height: 100vh;
     align-items: center;
     text-align: left;
-    width: 50vw;
+    width: 55vw;
 }
 #spec1 div div div{
-    width: 40vw;
+    width: 45vw;
     height: auto;
     align-items: start;
 }
@@ -109,35 +114,41 @@ nav.fixed {
 #spec1 div div h2{
     margin-top: 1vh;
     color: #EE94CA;
-    font-size: 4vh;
+    font-size: 5vh;
 }
 #spec1 div div p{
     margin-top: 6vh;
     color: gray;
     line-height: 2.6vh;
-    font-size: 2.5vh;
+    font-size: 2.7vh;
     letter-spacing: 0.05vw;
 }
+.spec2-header{
+    height: 6vh!important;
+    position: relative;
+    width: 55vw;
+    background: #F5F5F7;
+}
 #spec2{
-    background: lightgray;
-    height: 100vh;
-    width: 50vw;
+    background: #F5F5F7;
+    height: 94vh;
+    width: 55vw;
     display: flex;
+    overflow-x: hidden;
 }
 #spec2 div{
     height: 100vh;
-    width: 50vw;
+    width: 55vw;
     flex-wrap: nowrap;
     display: flex;
     flex-direction: column;
-    align-items: end;
-    justify-content: end;
+    justify-content: center;
 }
 
 #spec2 div div{
-    height: 47vh;
     align-items: center;
     text-align: left;
+    padding-top: 2vh;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -145,18 +156,18 @@ nav.fixed {
     cursor: pointer;
 }
 #spec2 div div .spec2-content{
-    margin-top: 7vh;
-    width: 40vw;
+    width: 45vw;
     height: auto;
     align-items: start;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+    pointer-events: none;
 }
 #spec2 div div .spec2-content h1{
     color: #0f0f0f;
-    font-size: 4vh;
-    transition: 1s;
+    font-size: 3vh;
+    transition: 0.5s;
 }
 #spec2 div div .spec2-content h2{
     margin-top: 0.5vh;
@@ -172,13 +183,14 @@ nav.fixed {
     transition: 1s;
 }
 #spec2 div div .spec2-hours{
+    margin-top: 3vh;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    width: 40vw;
+    width: 45vw;
     justify-content: space-between;
-    margin-top: 3vh;
-    margin-bottom: 2vh;
+    align-items: start;
+    pointer-events: none;
 }
 #spec2 div div .spec2-hours div{
     display: flex;
@@ -194,6 +206,7 @@ nav.fixed {
     font-size: 3vh;
     margin-top: 0.6vh;
     margin-bottom: 0.6vh;
+    line-break:auto;
 
 }
 #spec2 div div .spec2-hours div p{
@@ -202,14 +215,25 @@ nav.fixed {
     margin: 0;
 }
 
-#iphoneDesign:hover .spec2-content h1{
+/* #iphoneDesign:hover .spec2-content h1{
     font-size: 3.5vh;
 }
 
 #iphoneBatery:hover .spec2-content h1{
     font-size: 3.5vh;
+} */
+#iphoneBatery:hover{
+    -webkit-box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);
+    -moz-box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);
+    box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);
+    border-left: #85ADAC solid 0.5vh;
 }
-
+#iphoneDesign:hover{
+    -webkit-box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);
+    -moz-box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);
+    box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);
+    border-left: #6467E6 solid 0.5vh;
+}
 #spec3{
     background: #0f0f0f;
     height: 100vh;
@@ -218,7 +242,7 @@ nav.fixed {
 
 #cam{
     position: relative;
-    height: 100vh;
+    height: 300vh;
     width: 100%;
     background: snow;
 }
@@ -228,14 +252,14 @@ nav.fixed {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    width: 50vw;
-    top: 15vh;
+    width: 57vw;
+    top: 12.5vh;
     left: 10vw;
     height: auto;
 }
 
 .cam-conteudo-title {
-    width: 40vw;
+    width: 50vw;
     font-size: 4vh;
     display: flex;
     flex-direction: column;
@@ -245,6 +269,7 @@ nav.fixed {
     color: #EE94CA;
 }
 .cam-conteudo-title h2{
+    margin-top: 1vh;
     color: black;
 }
 .cam-conteudo p{
