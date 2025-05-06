@@ -6,10 +6,11 @@ import { GLTFLoader } from 'GLTFLoader'
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
+var rendererDiv = document.getElementById('rendererDiv')
 var textureLoader = new THREE.TextureLoader();
 let gltfLoader = new GLTFLoader()
 var clock = new THREE.Clock()
-
+let passiveRotation = false
 let camera,scene,renderer,delta,object,a18,directionalLight,tweenRotation,screen
 
 let iphoneColorMeshes = new Array
@@ -34,8 +35,6 @@ function init() {
     // const light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.4 );
     // light.position.set( 0.5, 1, 0.75 );
     // scene.add( light );
-
-    var rendererDiv = document.getElementById('rendererDiv')
     renderer = new THREE.WebGLRenderer( { antialias: true, alpha:true, powerPreference: "high-performance" } );
     renderer.setPixelRatio( 1 );
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -75,7 +74,8 @@ function init() {
                     }
                     if (o.name=='Object_18') {
                         screen = o
-                        loadScreen(screen,'video', 'video/fortnite.mp4')
+                        o.material.transparent = true;
+                        textureCrossfade(screen,1000,'video', 'video/fortnite.mp4')
                     }
                 }
             })
@@ -127,7 +127,9 @@ init()
 function animate() {
     delta = clock.getDelta()
     requestAnimationFrame( animate );
-    // object.rotation.y -= 0.007
+    if (passiveRotation) {
+        object.rotation.y -= 0.007   
+    }
     if(TWEEN) TWEEN.update()
     renderer.render( scene, camera )
 }
@@ -145,88 +147,78 @@ let specs = [
     'spec2',
     'cam'
 ]
-let down = true
 let i = 0
+let shouldRun = true
+let prevState
 function specsScroll(e) {
     const scrollDirection = e.deltaY < 0 ? 1 : 0
     // console.log(scrollDirection === 1 ? "up" : "down")
     if(scrollDirection===0){
         i += 1
         if (i>2) {
+            shouldRun = false
             i=2
         } else {
+            shouldRun = true
             let scrollDiv = document.getElementById(specs[i]).offsetTop;
-            console.log(specs[i])
             window.scrollTo({ top: scrollDiv, behavior: 'smooth'})
         }
     } else {
         i -= 1
         if (i<0) {
+            shouldRun = false
             i=0
         } else {
+            shouldRun = true
             let scrollDiv = document.getElementById(specs[i]).offsetTop;
-            console.log(specs[i])
             window.scrollTo({ top: scrollDiv, behavior: 'smooth'})
         }
     }
-    console.log(i)
-    if (specs[i]=='spec1') {
-        rendererDivBackground.style.background = '#0f0f0f'
-        rotate(object,{x: 0,y:200,z:90});
-        move(object,{x:14,y:0,z:30}, 1500)
-        move(a18,{x:-3,y:6,z:20}, 750)
-        loadScreen(screen,'video', 'video/fortnite.mp4')
-        changeColor(iphoneColorMeshes,iphoneColors.pink)
-        move(directionalLight,{x:-40,y:10,z:-10}, 1500)
+    if (shouldRun) {
+        if (specs[i]=='spec1') {
+            rendererDiv.style.zIndex = '100'
+            rendererDivBackground.style.background = '#0f0f0f'
+            passiveRotation = false
+            rotate(object,{x: 0,y:200,z:90});
+            move(object,{x:14,y:0,z:30}, 1500)
+            move(a18,{x:-3,y:6,z:20}, 750)
+            textureCrossfade(screen,1000,'video', 'video/fortnite.mp4')
+            changeColor(iphoneColorMeshes,iphoneColors.pink)
+            move(directionalLight,{x:-40,y:10,z:-10}, 1500)
+        }
+        if (specs[i]=='spec2') {
+            rendererDivBackground.style.background = 'black'
+            rotate(object,{x: 0,y:220,z:0});
+            move(object,{x:14,y:0,z:30},1500)
+            move(a18,{x:-3,y:20,z:20},200)
+            a18.position.set(-3,6,20)
+            passiveRotation = false
+            textureCrossfade(screen,1000,'image', 'img/iphone-charged.png')
+            changeColor(iphoneColorMeshes,iphoneColors.grayedGreen)
+            move(directionalLight,{x:-40,y:10,z:-10},1500)
+            if (prevState=='cam') {
+                setTimeout(() => {
+                    rendererDiv.style.zIndex = '5'
+                }, "1000");
+            } else {
+                setTimeout(() => {
+                    rendererDiv.style.zIndex = '5'
+                }, "500");
+            }
+        }
+        if (specs[i]=='cam') {
+            rendererDiv.style.zIndex = '100'
+            passiveRotation = false
+            move(object, {x:4,y:-5.5,z:-2}, 1500)
+            move(directionalLight,{x:0,y:0,z:-20},1500)
+            setTimeout(() => {
+                rotate(object,{x:0,y:0,z:90});
+                changeColor(iphoneColorMeshes,iphoneColors.pink)
+            }, "500");
+    
+        }   
     }
-    if (specs[i]=='spec2') {
-        rendererDivBackground.style.background = 'black'
-        rotate(object,{x: 0,y:220,z:0});
-        move(object,{x:14,y:0,z:30},1500)
-        move(a18,{x:-3,y:20,z:20},200)
-        a18.position.set(-3,6,20)
-        loadScreen(screen,'image', 'img/iphone-charged.png')
-        changeColor(iphoneColorMeshes,iphoneColors.grayedGreen)
-        move(directionalLight,{x:-40,y:10,z:-10},1500)
-        
-    }
-    if (specs[i]=='cam') {
-        rotate(object,{x:0,y:0,z:90});
-        changeColor(iphoneColorMeshes,iphoneColors.pink)
-        move(object, {x:4,y:-5.5,z:-2}, 1500)
-        move(directionalLight,{x:0,y:0,z:-20},1500)
-    }
-}
-
-function loadScreen(o,type,src) {
-    if (type=='video') {
-        let video = document.getElementById( 'fortniteVideo' );
-        video.src = src
-        video.currentTime = 0;
-        let texture = new THREE.VideoTexture( video );
-        // texture.flipY = true;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.repeat.set( 1, 1 );
-        let material = new THREE.MeshPhongMaterial( { map: texture } );
-        o.material = material
-        // video.autoplay = true
-        video.muted= "muted"
-        video.play()
-        
-    }
-    if (type=='image') {
-        let source = src
-        let texture = textureLoader.load(source);
-        texture.rotation = -0.03;
-        texture.center = new THREE.Vector2(0.5, 0.5);
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.wrapS = THREE.RepeatWrapping;
-        // texture.flipY = false;
-        texture.repeat.set( 1, 1 );
-        let material = new THREE.MeshPhongMaterial( { map: texture } );
-        o.material = material
-    }
+    prevState = specs[i]
 }
 
 function rotate(o, deg ) {
@@ -259,7 +251,6 @@ function changeColor(array,color) {
         } else {
             directionalLight.intensity = 0.7
         }
-        console.log(o.material.color)
         const hsl = {};
         o.material.color.getHSL(hsl);
         let colorTween = new TWEEN.Tween(hsl)
@@ -274,10 +265,79 @@ function changeColor(array,color) {
         colorTween.start()
     })
 }
-
+function textureCrossfade(o,duration,type,src) {
+    let tweenTextureOpacity = new TWEEN.Tween(o.material)
+        .to({opacity:0})
+        .delay(0)
+        .duration(duration)
+        .easing(TWEEN.Easing.Cubic.InOut)
+        .onUpdate(() => {
+            console.log(o.material.opacity)
+        })
+        .onComplete(() => {
+            if (type=='video') {
+                console.log(o.material.opacity)
+                let video = document.getElementById( 'fortniteVideo' );
+                video.src = src
+                video.currentTime = 0;
+                let texture = new THREE.VideoTexture( video );
+                // texture.flipY = true;
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.repeat.set( 1, 1 );
+                let material = new THREE.MeshPhongMaterial( { map: texture } );
+                o.material = material
+                // video.autoplay = true
+                video.muted= "muted"
+                video.play()
+                
+            }
+            if (type=='image') {
+                let source = src
+                let texture = textureLoader.load(source);
+                texture.rotation = -0.03;
+                texture.center = new THREE.Vector2(0.5, 0.5);
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+                // texture.flipY = false;
+                texture.repeat.set( 1, 1 );
+                let material = new THREE.MeshPhongMaterial( { map: texture } );
+                o.material = material
+            }
+            o.material.opacity = 0
+            o.material.transparent = true;
+            o.material.needsUpdate = true; 
+            let tweenTextureOpacity2 = new TWEEN.Tween(o.material)
+            .to({opacity:1})
+            .delay(0)
+            .duration(duration)
+            .easing(TWEEN.Easing.Cubic.InOut)
+            .onStart(() =>{
+                o.material.transparent = true;
+                o.material.needsUpdate = true; 
+            })
+            .onComplete(() => {
+                console.log('terminou animação')
+            }).onUpdate(() =>{
+                console.log(o.material.opacity)
+            })
+            tweenTextureOpacity2.start()
+    })
+    tweenTextureOpacity.start()
+}
 function hexToHSL(hex) {
     const color = new THREE.Color(hex);
     const hsl = {};
     color.getHSL(hsl);
     return hsl;
 }
+let iphoneDesign = document.getElementById('iphoneDesign')
+let iphoneBatery = document.getElementById('iphoneBatery')
+iphoneDesign.addEventListener("mouseover", (event) => {
+    rotate(object,{x: 0,y:0,z:0});
+    changeColor(iphoneColorMeshes,iphoneColors.ultraMarine)
+})
+iphoneBatery.addEventListener("mouseover", (event) => { 
+    rotate(object,{x: 0,y:220,z:0});
+    changeColor(iphoneColorMeshes,iphoneColors.grayedGreen)
+})

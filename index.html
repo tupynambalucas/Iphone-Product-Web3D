@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +7,51 @@
     <link rel="stylesheet" href="index.css">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <!-- AnimateCss -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="component/animate.js"></script>
     <!-- Fonts -->
     <link rel="stylesheet" href="https://use.typekit.net/dlu7kcs.css">
     <link rel="stylesheet" href="fonts.css">
-
+    <div id="loading">
+        <div>
+            <img src="img/logo/tupy-logo.png" class="animate__animated animate__bounce animate__infinite">
+            <h1 class="gibson-bold">tupynambalucas.dev</h1>
+            <p class="gibson-light">Portfollio - Reimaginação do site do Iphone 16 da Apple</p>
+        </div>
+    </div>
+    <style>
+        #loading{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2000;
+            background: snow;
+            justify-content: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-content: center;
+            display: none;
+        }
+        #loading div{
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-items: center;
+            align-content: center;
+        }
+        #loading img{
+            height: 10vh;
+            margin-bottom: 5vh;
+        }
+        #loading p{
+            margin-top: 1vh;
+            font-size: 2vh;
+        }
+    </style>
     <!-- Midnight -->
     <script src="https://cdn.jsdelivr.net/combine/npm/jquery@1.11,npm/midnight.js@1.1"></script>
     <script>
@@ -21,10 +61,6 @@
           $('nav.fixed').midnight();
         });
     </script>
-
-    <!-- AnimateCss -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="component/animate.js"></script>
 </head>
 <body>
 <div id="rendererDiv" class="rendererDiv">
@@ -59,9 +95,9 @@
     <div id="spec2">
         <div>
             <!-- <img src="img/a18.jpg"> -->
-            <div>
+            <div id="iphoneBatery">
                 <div class="spec2-content">
-                    <h2 class="gibson-bold">Dura tanto, que se duvidar, sua pilha acaba antes.</h2>
+                    <h1 style="color: #85ADAC;" class="gibson-bold">Dura tanto, que se duvidar, sua pilha acaba antes.</h2>
                     <p class="gibson-regular">O iPhone 16 ganhou um novo design interno para acomodar uma bateria maior, que trabalha junto com o chip A18 e <span style="color: black;">garante um salto impressionante na duração</span>, mesmo com todos os recursos inovadores.<br><br> Pode jogar, maratonar e usar até onde quiser. E com o novo carregador MagSafe, a recarga sem fio ficou ainda mais rápida: <span style="color: black;">até 25W com um adaptador de 30W ou mais</span>, garantindo 50% de carga em cerca de 30 minutos.</p>
                 </div>
                 <div class="spec2-hours">
@@ -74,6 +110,21 @@
                         <p class="gibson-regular">Até</p>
                         <h1 class="gibson-bold">22 horas</h1>
                         <p class="gibson-regular">de reprodução de vídeo no iPhone 16</p>
+                    </div>
+                </div>
+            </div>
+            <div id="iphoneDesign">
+                <div class="spec2-content">
+                    <h1 style="color: #6467E6;" class="gibson-bold">Design resistente.</h1>
+                    <h2 class="gibson-regular">Quem disse que beleza não foi feita para durar?</h2>
+                    <p class="gibson-regular">O iPhone 16 tem uma estrutura reforçada em alumínio aeroespacial. Na parte de trás, vidro colorido por infusão lindo e durável. Na parte frontal, Ceramic Shield de última geração duas vezes mais resistente que qualquer vidro de smartphone.<br><br>E o novo design interno dissipa mais o calor, melhorando o desempenho de modo geral e o dos games em especial.</p>
+                </div>
+                <div class="spec2-hours">
+                    <div>
+                        <p style="color: #6467E6;" class="gibson-regular">Projetado em alumínio aeroespacial sofisticado.</p>
+                    </div>
+                    <div>
+                        <p style="color: #6467E6;" class="gibson-regular">Ceramic Shield de última geração. Duas vezes mais forte que qualquer vidro de smartphone.</p>
                     </div>
                 </div>
             </div>
