@@ -49,8 +49,8 @@ function init() {
     renderer = new THREE.WebGLRenderer( { antialias: true, alpha:true, powerPreference: "high-performance" } );
     renderer.setPixelRatio( 1 );
     renderer.setSize( window.innerWidth, window.innerHeight );
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 2.3
+    renderer.toneMapping = THREE.AgXToneMapping;
+    renderer.toneMappingExposure = 2
     renderer.shadowMap.enabled = true;
     renderer.outputEncoding = THREE.sRGBEncoding;
     rendererDiv.appendChild( renderer.domElement );
@@ -158,89 +158,110 @@ let rendererDivBackground = document.getElementById('rendererDivBackground')
 let specs = [
     'spec1Header',
     'spec2Header',
-    'cam'
+    'camHeader1',
+    'camHeader2',
+    'camHeader3',
+    'camHeader4',
 ]
 let i = 0
 let shouldRun = true
 let prevState
 function specsScroll(e) {
     const scrollDirection = e.deltaY < 0 ? 1 : 0
-    let pageOffSett = window.pageYOffset
-    console.log(pageOffSett)
-    if (pageOffSett>4320) {
-        if (pageOffSett>5320) {
-            rotate(object,{x: 0,y:0,z:0});
-            move(object,{x:-14.5,y:0,z:30},1500)
-        }
-    } else {
-
-        if(scrollDirection===0){
-            i += 1
-            if (i>2) {
-                shouldRun = false
-                i=2
-            } else {
-                shouldRun = true
-                let scrollDiv = document.getElementById(specs[i]).offsetTop;
-                window.scrollTo({ top: scrollDiv, behavior: 'smooth'})
-            }
+    if(scrollDirection===0){
+        // Down
+        i += 1
+        if (i>=6) {
+            shouldRun = false
+            i=3
+            console.log('desativado')
         } else {
-            i -= 1
-            if (i<0) {
-                shouldRun = false
-                i=0
-            } else {
-                shouldRun = true
-                let scrollDiv = document.getElementById(specs[i]).offsetTop;
-                window.scrollTo({ top: scrollDiv, behavior: 'smooth'})
-            }
+            shouldRun = true
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            let scrollDiv = document.getElementById(specs[i])
+            let rectViewport = scrollDiv.getBoundingClientRect();
+            let top = rectViewport.top + scrollTop;
+            console.log(scrollDiv)
+            setTimeout(function () {
+                window.scrollTo({ top: top, behavior: 'smooth'})
+            },100);
         }
-        if (shouldRun) {
-            if (specs[i]=='spec1Header') {
-                rendererDiv.style.zIndex = '100'
-                rendererDivBackground.style.background = '#F5F5F7'
-                passiveRotation = false
-                rotate(object,{x: 0,y:200,z:90});
-                move(object,{x:14,y:0,z:30}, 1500)
-                move(a18,{x:-3,y:6,z:20}, 750)
-                textureCrossfade(screen,1000,'video', 'video/fortnite.mp4')
-                changeColor(iphoneColorMeshes,iphoneColors.pink)
-                move(directionalLight,{x:-40,y:10,z:-10}, 1500)
-            }
-            if (specs[i]=='spec2Header') {
-                rendererDivBackground.style.background = 'black'
-                rotate(object,{x: 0,y:0,z:0});
-                move(object,{x:14.5,y:0,z:30},1500)
-                move(a18,{x:-3,y:20,z:20},200)
-                a18.position.set(-3,6,20)
-                passiveRotation = false
-                textureCrossfade(screen,1000,'image', 'img/iphone-charged.png')
-                changeColor(iphoneColorMeshes,iphoneColors.ultraMarine)
-                move(directionalLight,{x:-40,y:10,z:-10},1500)
-                if (prevState=='cam') {
-                    setTimeout(() => {
-                        rendererDiv.style.zIndex = '5'
-                    }, "1000");
-                } else {
-                    setTimeout(() => {
-                        rendererDiv.style.zIndex = '5'
-                    }, "500");
-                }
-            }
-            if (specs[i]=='cam') {
-                rendererDiv.style.zIndex = '100'
-                passiveRotation = false
-                move(object, {x:4,y:-5.5,z:-2}, 1500)
-                move(directionalLight,{x:0,y:0,z:-20},1500)
-                setTimeout(() => {
-                    rotate(object,{x:0,y:0,z:90});
-                    changeColor(iphoneColorMeshes,iphoneColors.pink)
-                }, "500");
-        
-            }   
+        console.log(i)
+    } else {
+        // Up
+        i -= 1
+        console.log(specs[i])
+        console.log(i)
+        console.log('up')
+        if (i<0) {
+            shouldRun = false
+            i=0
+        } else {
+            shouldRun = true
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            let scrollDiv = document.getElementById(specs[i])
+            let rectViewport = scrollDiv.getBoundingClientRect();
+            let top = rectViewport.top + scrollTop;
+            console.log(scrollDiv)
+            setTimeout(function () {
+                window.scrollTo({ top: top, behavior: 'smooth'})
+            },100);
         }
     }
-    console.log(pageOffSett)
+    if (shouldRun) {
+        if (specs[i]=='spec1Header') {
+            rendererDiv.style.zIndex = '100'
+            rendererDivBackground.style.background = '#F5F5F7'
+            passiveRotation = false
+            rotate(object,{x: 0,y:200,z:90});
+            move(object,{x:14,y:0,z:30}, 1500)
+            move(a18,{x:-3,y:6,z:20}, 750)
+            textureCrossfade(screen,1000,'video', 'video/fortnite.mp4')
+            changeColor(iphoneColorMeshes,iphoneColors.pink)
+            move(directionalLight,{x:-40,y:10,z:-10}, 1500)
+        }
+        if (specs[i]=='spec2Header') {
+            rendererDivBackground.style.background = 'black'
+            rotate(object,{x: 0,y:0,z:0});
+            move(object,{x:14.5,y:0,z:30},1500)
+            move(a18,{x:-3,y:20,z:20},200)
+            a18.position.set(-3,6,20)
+            passiveRotation = false
+            textureCrossfade(screen,1000,'image', 'img/iphone-charged.png')
+            changeColor(iphoneColorMeshes,iphoneColors.ultraMarine)
+            move(directionalLight,{x:-40,y:10,z:-10},1500)
+            if (prevState=='camHeader1') {
+                setTimeout(() => {
+                    rendererDiv.style.zIndex = '5'
+                }, "1000");
+            } else {
+                setTimeout(() => {
+                    rendererDiv.style.zIndex = '5'
+                }, "500");
+            }
+        }
+        if (specs[i]=='camHeader1') {
+            rendererDiv.style.zIndex = '100'
+            passiveRotation = false
+            rendererDivBackground.style.background = 'snow'
+            move(object, {x:4,y:-5.5,z:-2}, 1500)
+            move(directionalLight,{x:0,y:0,z:-20},1500)
+            setTimeout(() => {
+                rotate(object,{x:0,y:0,z:90});
+                changeColor(iphoneColorMeshes,iphoneColors.pink)
+            }, "500");
+        } 
+        if (specs[i]=='camHeader2') {
+            rendererDiv.style.zIndex = '100'
+            passiveRotation = false
+            move(object,{x:-8,y:0,z:25},1500)
+            textureCrossfade(screen,1000,'image', 'img/cam-screenshot-1.png')
+            move(directionalLight,{x:-40,y:10,z:-10},1500)
+            rotate(object,{x: 0,y:170,z:0});
+        }    
+    }
+    
+    // console.log(scrollDirection)
     prevState = specs[i]
 }
 
@@ -316,13 +337,19 @@ function textureCrossfade(o,duration,type,src) {
             if (type=='image') {
                 let source = src
                 let texture = textureLoader.load(source);
-                texture.rotation = -0.03;
-                texture.center = new THREE.Vector2(0.5, 0.5);
+                // texture.rotation = Math.PI;
+                // texture.center.set( 0.5, 0.5 );
                 texture.wrapT = THREE.RepeatWrapping;
                 texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-                // texture.flipY = false;
+                texture.flipY = false;
                 texture.repeat.set( 1, 1 );
-                let material = new THREE.MeshPhongMaterial( { map: texture } );
+                let material = new THREE.MeshBasicMaterial({ 
+                    map: texture,
+                    shininess: 200,
+                    reflectivity: 1,
+                    specular: 0xFFFFFF,
+                    fog: false
+                });
                 o.material = material
             }
             o.material.opacity = 0
@@ -350,14 +377,19 @@ function hexToHSL(hex) {
     color.getHSL(hsl);
     return hsl;
 }
-let iphoneDesign = document.getElementById('iphoneDesign')
-let iphoneBatery = document.getElementById('iphoneBatery')
-iphoneDesign.addEventListener("mouseenter", (event) => {
-    rotate(object,{x: 0,y:0,z:0});
-    changeColor(iphoneColorMeshes,iphoneColors.ultraMarine)
-}, false)
-iphoneBatery.addEventListener("mouseenter", (event) => { 
-    rotate(object,{x: 0,y:220,z:0});
-    changeColor(iphoneColorMeshes,iphoneColors.grayedGreen)
-}, false)
+let designBatery = [document.getElementById('iphoneBatery'),document.getElementById('iphoneDesign')]
+designBatery.forEach((element) => {
+    console.log(element)
+    element.addEventListener("mouseenter", (e) => {
+        e.preventDefault()
+        let id = e.target.id
+        if (id=='iphoneDesign') {
+            rotate(object,{x: 0,y:-10,z:0});
+        } else {
+            rotate(object,{x: 0,y:190,z:0});
+        }
+        document.getElementById('spec2').setAttribute('style', '-webkit-box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);-moz-box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);');
+        changeColor(iphoneColorMeshes,iphoneColors.ultraMarine)
+    })
+})
 

@@ -4,6 +4,9 @@ body,html{
     height: 100%;
     width: 100%;
 }
+body{
+    overflow: auto;
+}
 nav.fixed {
     position: fixed;
     top: 0;
@@ -134,7 +137,7 @@ nav.fixed {
     height: 94vh;
     width: 55vw;
     display: flex;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 #spec2 div{
     height: 100vh;
@@ -142,14 +145,16 @@ nav.fixed {
     flex-wrap: nowrap;
     display: flex;
     flex-direction: column;
+    align-items:start;
+    align-content: start;
     justify-content: center;
 }
 
 #spec2 div div{
     align-items: center;
     text-align: left;
-    padding-top: 2vh;
     display: flex;
+    height: fit-content;
     flex-direction: column;
     flex-wrap: nowrap;
     transition: 1s;
@@ -222,18 +227,6 @@ nav.fixed {
 #iphoneBatery:hover .spec2-content h1{
     font-size: 3.5vh;
 } */
-#iphoneBatery:hover{
-    -webkit-box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);
-    -moz-box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);
-    box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);
-    border-left: #85ADAC solid 0.5vh;
-}
-#iphoneDesign:hover{
-    -webkit-box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);
-    -moz-box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);
-    box-shadow: inset 100px 0px 34px -100px rgba(66, 68, 90, 0.68);
-    border-left: #6467E6 solid 0.5vh;
-}
 #spec3{
     background: #0f0f0f;
     height: 100vh;
@@ -246,7 +239,17 @@ nav.fixed {
     width: 100%;
     background: snow;
 }
-
+.cam-header{
+    height: 6vh!important;
+    width: 100%;
+    position: relative;
+    background: snow;
+}
+.cam-section{
+    height: 94vh;
+    width: 100%;
+    position: relative;
+}
 .cam-conteudo{
     position: absolute;
     display: flex;
@@ -277,4 +280,27 @@ nav.fixed {
     font-size: 2.5vh;
     line-height: 3.5vh;
     letter-spacing: 0.05vw;
+}
+
+.cam-specs{
+    width: 40vw;
+    position: absolute;
+    top: 50%;
+    left: 10vw;
+    margin-right: -50%;
+    transform: translate(0%, -50%)
+}
+.cam-specs h2{
+    width: 20vw;
+    font-size: 4vh;
+    color: black;
+}
+
+.cam-specs p{
+    font-size: 3vh;
+    color: gray;
+    margin-top: 2vh;
+}
+.cam-specs span{
+    color: black;
 }
