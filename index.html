@@ -5,36 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iphone</title>
     <link rel="stylesheet" href="index.css">
+
     <!-- FontAwesome -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- AnimateCss -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="component/animate.js"></script>
+
     <!-- Fonts -->
     <link rel="stylesheet" href="https://use.typekit.net/dlu7kcs.css">
     <link rel="stylesheet" href="fonts.css">
+
     <div id="loading">
         <div>
-            <img src="img/logo/tupy-logo.png" class="animate__animated animate__bounce animate__infinite">
-            <h1 class="gibson-bold">tupynambalucas.dev</h1>
-            <p class="gibson-light">Portfollio - Reimaginação do site do Iphone 16 da Apple</p>
+            <img src="tupy/logo.png" class="animate__animated animate__bounce animate__infinite">
+            <h1 class="sfPro-Display-Semibold">tupynambalucas.dev</h1>
+            <p class="sfPro-light">Portfollio - Reimaginação do site do Iphone 16 da Apple</p>
         </div>
     </div>
     <style>
         #loading{
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 2000;
+            z-index: 20000;
             background: snow;
             justify-content: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             align-content: center;
-            display: none;
+            display: block;
         }
         #loading div{
             display: flex;
@@ -52,13 +57,17 @@
             font-size: 2vh;
         }
     </style>
+
     <!-- Midnight -->
     <script src="https://cdn.jsdelivr.net/combine/npm/jquery@1.11,npm/midnight.js@1.1"></script>
     <script>
         // Start midnight
         $(document).ready(function(){
-          // Change this to the correct selector.
-          $('nav.fixed').midnight();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            animateCSS('#loading', 'fadeOut').then((message) => {
+                document.getElementById('loading').style.display = 'none'
+            });
+            $('nav.fixed').midnight();
         });
     </script>
 </head>
@@ -70,63 +79,63 @@
 <nav class="fixed">
     <!-- Your standard header -->
     <div class="midnightHeader default">
-        <img src="img/logo/logo-black.svg">
-        <h1 class="gibson-regular">Iphone 16</h1>
+        <img src="apple/logo/logo-black.svg">
+        <h1 class="sfPro-Text-Semibold">Iphone 16</h1>
     </div>
     
     <!-- A header with butterflies -->
     <div class="midnightHeader black">
-        <img src="img/logo/logo-white.svg">
-        <h1 class="gibson-regular">Iphone 16</h1>
+        <img src="apple/logo/logo-white.svg">
+        <h1 class="sfPro-Text-Semibold">Iphone 16</h1>
     </div>
 </nav>
 <section class="specs" data-midnight="default">
-    <div id="spec1Header" class="spec1-header"></div>
+    <div id="specHeader1" class="spec1-header"></div>
     <div id="spec1">
         <div>
-            <!-- <img src="img/a18.jpg"> -->
+            <div class="a18-background"></div>
             <div>
                 <div>
-                    <h2 class="gibson-bold">Ágil como nunca. Inteligente como sempre quis.</h2>
-                    <p class="gibson-regular">Apresentamos o A18, <span style="color: snow;">desenvolvido especialmente para potencializar a Apple Intelligence</span> e muito além disso. Este chip está duas gerações à frente do A16 Bionic, presente no iPhone 15, entregando um salto de desempenho e recursos avançados de fotografia, como Estilos Fotográficos e Controle da Câmera.<br><br> E o melhor: tudo isso com um consumo de energia otimizado, ajudando a bateria a durar ainda mais.</p>
+                    <h1 class="sfPro-Display-Semibold">Ágil como nunca. Inteligente como sempre quis.</h1>
+                    <p class="sfPro-Text-Semibold">Apresentamos o chip A18, <span style="color: snow;">desenvolvido especialmente para potencializar a Apple Intelligence</span> e muito além disso. Este chip está duas gerações à frente do A16 Bionic, presente no iPhone 15, entregando um salto de desempenho e recursos avançados de fotografia, como Estilos Fotográficos e Controle da Câmera.<br><br> E o melhor: tudo isso com um consumo de energia otimizado, ajudando a bateria a durar ainda mais.</p>
                 </div>
             </div>
         </div>
     </div>
-    <div id="spec2Header" class="spec2-header"></div>
+    <div id="specHeader2" class="spec2-header"></div>
     <div id="spec2">
         <div>
             <!-- <img src="img/a18.jpg"> -->
-            <div id="iphoneDesign" style="margin-bottom: 2vh;">
+            <div id="iphoneDesign">
                 <div class="spec2-content">
-                    <h1 style="color: #6467E6;" class="gibson-bold">Design resistente.</h1>
-                    <h2 class="gibson-regular">Quem disse que beleza não foi feita para durar?</h2>
-                    <p class="gibson-regular">O iPhone 16 tem uma estrutura reforçada em alumínio aeroespacial. Na parte de trás, vidro colorido por infusão lindo e durável. Na parte frontal, Ceramic Shield de última geração duas vezes mais resistente que qualquer vidro de smartphone.<br><br>E o novo design interno dissipa mais o calor, melhorando o desempenho de modo geral e o dos games em especial.</p>
+                    <h1 style="color: #6467E6;" class="sfPro-Display-Semibold">Design resistente.</h1>
+                    <h2 class="sfPro-Display-Semibold">Quem disse que beleza não foi feita para durar?</h2>
+                    <p class="sfPro-Text-Semibold">O iPhone 16 tem uma estrutura reforçada em alumínio aeroespacial. Na parte de trás, vidro colorido por infusão lindo e durável. Na parte frontal, Ceramic Shield de última geração duas vezes mais resistente que qualquer vidro de smartphone.<br><br>E o novo design interno dissipa mais o calor, melhorando o desempenho de modo geral e o dos games em especial.</p>
                 </div>
                 <div class="spec2-hours">
                     <div>
-                        <p style="color: #6467E6;" class="gibson-regular">Projetado em alumínio aeroespacial sofisticado.</p>
+                        <p style="color: #6467E6;" class="sfPro-Text-RegularItalic">Projetado em alumínio aeroespacial sofisticado.</p>
                     </div>
                     <div>
-                        <p style="color: #6467E6;" class="gibson-regular">Ceramic Shield de última geração. Duas vezes mais forte que qualquer vidro de smartphone.</p>
+                        <p style="color: #6467E6;" class="sfPro-Text-RegularItalic">Ceramic Shield de última geração. Duas vezes mais forte que qualquer vidro de smartphone.</p>
                     </div>
                 </div>
             </div>
-            <div id="iphoneBatery" style="margin-top: 2vh;">
+            <div id="iphoneBatery">
                 <div class="spec2-content">
-                    <h1 style="color: #85ADAC;" class="gibson-bold">Sua pilha acaba antes.</h2>
-                    <p class="gibson-regular">O iPhone 16 ganhou um novo design interno para acomodar uma bateria maior, que trabalha junto com o chip A18 e <span style="color: black;">garante um salto impressionante na duração</span>, mesmo com todos os recursos inovadores.<br><br> Pode jogar, maratonar e usar até onde quiser. E com o novo carregador MagSafe, a recarga sem fio ficou ainda mais rápida: <span style="color: black;">até 25W com um adaptador de 30W ou mais</span>, garantindo 50% de carga em cerca de 30 minutos.</p>
+                    <h1 style="color: #85ADAC;" class="sfPro-Display-Semibold">Sua pilha acaba antes.</h2>
+                    <p class="sfPro-Text-Semibold">O iPhone 16 ganhou um novo design interno para acomodar uma bateria maior, que trabalha junto com o chip A18 e <span style="color: black;">garante um salto impressionante na duração</span>, mesmo com todos os recursos inovadores.<br><br> Pode jogar, maratonar e usar até onde quiser. E com o novo carregador MagSafe, a recarga sem fio ficou ainda mais rápida: <span style="color: black;">até 25W com um adaptador de 30W ou mais</span>, garantindo 50% de carga em cerca de 30 minutos.</p>
                 </div>
                 <div class="spec2-hours">
                     <div>
-                        <p class="gibson-regular">Até</p>
-                        <h1 class="gibson-bold">27 horas</h1>
-                        <p class="gibson-regular">de reprodução de vídeo no iPhone 16 Plus</p>
+                        <p class="sfPro-Text-RegularItalic">Até</p>
+                        <h1 class="sfPro-Display-Semibold">27 horas</h1>
+                        <p class="sfPro-Text-RegularItalic">de reprodução de vídeo no iPhone 16 Plus</p>
                     </div>
                     <div>
-                        <p class="gibson-regular">Até</p>
-                        <h1 class="gibson-bold">22 horas</h1>
-                        <p class="gibson-regular">de reprodução de vídeo no iPhone 16</p>
+                        <p class="sfPro-Text-RegularItalic">Até</p>
+                        <h1 class="sfPro-Display-Semibold">22 horas</h1>
+                        <p class="sfPro-Text-RegularItalic">de reprodução de vídeo no iPhone 16</p>
                     </div>
                 </div>
             </div>
@@ -138,31 +147,31 @@
     <div class="cam-section">
         <div class="cam-conteudo">
             <div class="cam-conteudo-title">
-                <h1 class="gibson-bold">Novo sistema de câmera.</h1>
-                <h2 class="gibson-regular">Escolha por qual lente você quer ver o mundo.</h2>
+                <h1 class="sfPro-Display-Semibold">Novo sistema de câmera.</h1>
+                <h2 class="sfPro-Display-Semibold">Escolha por qual lente você quer ver o mundo.</h2>
             </div>  
-            <p class="gibson-regular">O novíssimo sistema de câmera do iPhone 16 é muito versátil e captura fotos ainda mais surpreendentes, de perto ou de longe. A câmera Fusion de 48 MP funciona como duas. Ela faz imagens em alta resolução de tirar o fôlego ou dá zoom com a qualidade óptica da teleobjetiva de 2x. A câmera ultra-angular faz fotos macro em close extremo ou em planos abertos. Na prática, é como levar quatro lentes incríveis no bolso. E, com a captura espacial, você já pode começar a fazer fotos e gravar vídeos em 3D para ver de um jeito surpreendente e imersivo no Apple Vision Pro.</p>
+            <p class="sfPro-Text-Semibold">O <span>novíssimo sistema de câmera do iPhone 16 é muito versátil</span> e captura fotos ainda mais surpreendentes, de perto ou de longe. A câmera Fusion de 48 MP funciona como duas. Ela faz imagens em alta resolução de tirar o fôlego ou dá zoom com a qualidade óptica da teleobjetiva de 2x. A câmera ultra-angular faz fotos macro em close extremo ou em planos abertos. Na prática, <span>é como levar quatro lentes incríveis no bolso.</span> E, com a captura espacial, você já pode começar a fazer fotos e gravar vídeos em 3D para ver de um jeito surpreendente e imersivo no Apple Vision Pro.</p>
         </div>
     </div>
     <div id="camHeader2" class="cam-header"></div>
     <div class="cam-section">
         <div class="cam-specs">
-            <h2 class="gibson-bold">Seu look fica para a posteridade.</h2>
-            <p class="gibson-regular">Criamos novos estilos para você <span>modular exatamente como quer aparecer nas fotos, com renderização ainda mais avançada de tons de pele.</span> Depois, é só deixar seus ajustes definidos para as próximas fotos. E, com os poderes do chip A18, você pode ver uma prévia do que estiver aplicando.</p>
+            <h2 class="sfPro-Display-Semibold">Seu look fica para a posteridade.</h2>
+            <p class="sfPro-Text-Semibold">Criamos novos estilos para você <span>modular exatamente como quer aparecer nas fotos, com renderização ainda mais avançada de tons de pele.</span> Depois, é só deixar seus ajustes definidos para as próximas fotos. E, com os poderes do chip A18, você pode ver uma prévia do que estiver aplicando.</p>
         </div>
     </div>
     <div id="camHeader3" class="cam-header"></div>
     <div class="cam-section">
         <div class="cam-specs">
-            <h2 class="gibson-bold">Tudo passa pelo seu filtro.</h2>
-            <p class="gibson-regular">As melhorias no processamento de imagem dão mais liberdade criativa. Você pode <span>usar as cores para tornar o clima de uma foto único.</span></p>
+            <h2 class="sfPro-Display-Semibold">Tudo passa pelo seu filtro.</h2>
+            <p class="sfPro-Text-Semibold">As melhorias no processamento de imagem dão mais liberdade criativa. Você pode <span>usar as cores para tornar o clima de uma foto único.</span></p>
         </div>
     </div>
     <div id="camHeader4" class="cam-header"></div>
     <div class="cam-section">
         <div class="cam-specs">
-            <h2 class="gibson-bold">Megapixels mega bem aproveitados.</h2>
-            <p class="gibson-regular">Dê um toque ainda mais pessoal a cada estilo com a nova área de controle na tela. Ela <span>facilita o ajuste simultâneo da cor e do tom.</span> Você também pode usar o controle deslizante para afinar a intensidade de cores específicas em vez de aplicar a mesma para todas.</p>
+            <h2 class="sfPro-Display-Semibold">Megapixels mega bem aproveitados.</h2>
+            <p class="sfPro-Text-Semibold">Dê um toque ainda mais pessoal a cada estilo com a nova área de controle na tela. Ela <span>facilita o ajuste simultâneo da cor e do tom.</span> Você também pode usar o controle deslizante para afinar a intensidade de cores específicas em vez de aplicar a mesma para todas.</p>
         </div>
     </div>
 </section>

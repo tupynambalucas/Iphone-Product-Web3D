@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import TWEEN from 'tween';
 import { GLTFLoader } from 'GLTFLoader'
-
+import glowVertexShader from './three/shaders/glowVertexShader.js'
+import glowFragmentShader from './three/shaders/glowFragmentShader.js'
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
@@ -11,7 +12,10 @@ var textureLoader = new THREE.TextureLoader();
 let gltfLoader = new GLTFLoader()
 var clock = new THREE.Clock()
 let passiveRotation = false
-let camera,scene,renderer,delta,object,a18,directionalLight,tweenRotation,screen,pointLightSpherePivot
+let camera,scene,renderer,delta,object,a18,iphoneGlow,directionalLight,tweenRotation,screen,pointLightSpherePivot
+
+
+let glowShaderMaterial
 
 let iphoneColorMeshes = new Array
 let iphoneColors = {
@@ -30,14 +34,29 @@ function init() {
     scene.background = null;
     scene.add(camera)
 
-    scene.fog = new THREE.Fog( 0xffffff, 0, 10000 );
+    scene.fog = new THREE.Fog( 0xEE94CA, 0, 10000 );
 
+    glowShaderMaterial = new THREE.ShaderMaterial( 
+	{
+	    uniforms: 
+		{ 
+			"c":   { type: "f", value: 1 },
+			"p":   { type: "f", value: 4 },
+			glowColor: { type: "c", value: new THREE.Color(0xEE94CA) },
+			viewVector: { type: "v3", value: camera.position }
+		},
+		vertexShader: glowVertexShader,
+		fragmentShader: glowFragmentShader,
+		side: THREE.FrontSide,
+		blending: THREE.AdditiveBlending,
+		transparent: true,
+});
     // PointLight Rotation
 
     pointLightSpherePivot = new THREE.Object3D()
-    let pointLight = new THREE.PointLight( 0xff0000, 1, 1000, 0 );
-    pointLightSpherePivot.position.set(14,0,30)
-    pointLight.position.set(8,0,8);
+    let pointLight = new THREE.PointLight( 0xEE94CA, 1.5, 100, 0 );
+    pointLightSpherePivot.position.set(-2.4,5.2,20)
+    pointLight.position.set(8,-8,0);
     const sphereSize = 1;
     const pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
     scene.add( pointLightHelper );
@@ -47,15 +66,15 @@ function init() {
     // light.position.set( 0.5, 1, 0.75 );
     // scene.add( light );
     renderer = new THREE.WebGLRenderer( { antialias: true, alpha:true, powerPreference: "high-performance" } );
-    renderer.setPixelRatio( 1 );
+    renderer.setPixelRatio( 2 );
     renderer.setSize( window.innerWidth, window.innerHeight );
-    renderer.toneMapping = THREE.AgXToneMapping;
+    renderer.toneMapping = THREE.NeutralToneMapping;
     renderer.toneMappingExposure = 2
     renderer.shadowMap.enabled = true;
     renderer.outputEncoding = THREE.sRGBEncoding;
     rendererDiv.appendChild( renderer.domElement );
 
-    window.addEventListener( 'resize', onWindowResize );
+    window.addEventListener( 'resize', resizeRendererToDisplaySize );
 
     gltfLoader.load(
         // resource URL
@@ -72,11 +91,10 @@ function init() {
             scene.add( directionalLight )
             scene.add( directionalLight.target );
             directionalLight.target = object
-            let directionalLight2 = new THREE.DirectionalLight( 0xffffff, 0.5 );
-            directionalLight2.position.set(30,0,-10)
+            let directionalLight2 = new THREE.DirectionalLight( 0xffffff, 0.8 );
+            directionalLight2.position.set(-2.4,0,-50)
             scene.add( directionalLight2 )
             scene.add( directionalLight2.target );
-            directionalLight2.target = object
             object.traverse(o => {
                 o.receiveShadow = true
                 if (o.isMesh) {
@@ -88,6 +106,13 @@ function init() {
                         o.material.transparent = true;
                         textureCrossfade(screen,1000,'video', 'video/fortnite.mp4')
                     }
+                    if (o.name == 'Object_54') {
+                        let geometry = new THREE.SphereGeometry( 2,32,32); 
+                        iphoneGlow = new THREE.Mesh( geometry,glowShaderMaterial);
+                        iphoneGlow.position.set(-3,6.5,20)
+                        // scene.add( iphoneGlow );
+                        iphoneGlow.rotation.y = 0
+                    }
                 }
             })
             changeColor(iphoneColorMeshes,iphoneColors.pink)
@@ -98,10 +123,10 @@ function init() {
                 // called when the resource is loaded
                 function ( gltf ) {
                     a18 = gltf.scene; // THREE.Group
-                    a18.position.set(-3,6,20)
-                    a18.scale.set(1,1,1)
+                    a18.position.set(-2.4,5.2,20)
+                    a18.scale.set(1.9,1.9,1.9)
                     // a18.rotateY( Math.PI / -2.5 );
-
+                    directionalLight2.target = object
                     a18.traverse(o => {
                         o.receiveShadow = true
                     });
@@ -112,6 +137,8 @@ function init() {
                         let mouseY = (event.clientY / window.innerHeight) * 2 - 1;
                         a18.rotation.y = THREE.MathUtils.lerp(a18.rotation.x, (mouseX * Math.PI) / -40, 1)
                         a18.rotation.x = THREE.MathUtils.lerp(a18.rotation.y, (mouseY * Math.PI) / -40, 1)
+                        iphoneGlow.rotation.y = THREE.MathUtils.lerp(a18.rotation.x, (mouseX * Math.PI) / -40, 1)
+                        iphoneGlow.rotation.x = THREE.MathUtils.lerp(a18.rotation.y, (mouseY * Math.PI) / -40, 1)
                     }) 
 
             })
@@ -141,23 +168,29 @@ function animate() {
     if (passiveRotation) {
         object.rotation.y -= 0.007   
     }
-    pointLightSpherePivot.rotateY(0.01)
-    pointLightSpherePivot.rotateX(0.01)
+    pointLightSpherePivot.rotateY(0.007)
+    pointLightSpherePivot.rotateX(0.007)
     if(TWEEN) TWEEN.update()
     renderer.render( scene, camera )
 }
 
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+function resizeRendererToDisplaySize() {
+      const canvas = renderer.domElement;
+      const pixelRatio = window.devicePixelRatio;
+      const width  = Math.floor( canvas.clientWidth  * pixelRatio );
+      const height = Math.floor( canvas.clientHeight * pixelRatio );
+      const needResize = canvas.width !== width || canvas.height !== height;
+      if (needResize) {
+        renderer.setSize(width, height, false);
+      }
+      return needResize;
 }
 
 addEventListener("wheel", specsScroll)
 let rendererDivBackground = document.getElementById('rendererDivBackground')
 let specs = [
-    'spec1Header',
-    'spec2Header',
+    'specHeader1',
+    'specHeader2',
     'camHeader1',
     'camHeader2',
     'camHeader3',
@@ -209,27 +242,31 @@ function specsScroll(e) {
         }
     }
     if (shouldRun) {
-        if (specs[i]=='spec1Header') {
+        if (specs[i]=='specHeader1') {
             rendererDiv.style.zIndex = '100'
             rendererDivBackground.style.background = '#F5F5F7'
             passiveRotation = false
             rotate(object,{x: 0,y:200,z:90});
             move(object,{x:14,y:0,z:30}, 1500)
-            move(a18,{x:-3,y:6,z:20}, 750)
+            move(pointLightSpherePivot,{x:-2.4,y:5.2,z:20},1500)
+            move(a18,{x:-2.4,y:5.2,z:20}, 750)
+            move(iphoneGlow,{x:-1.6,y:6,z:20}, 750)
             textureCrossfade(screen,1000,'video', 'video/fortnite.mp4')
             changeColor(iphoneColorMeshes,iphoneColors.pink)
             move(directionalLight,{x:-40,y:10,z:-10}, 1500)
         }
-        if (specs[i]=='spec2Header') {
+        if (specs[i]=='specHeader2') {
             rendererDivBackground.style.background = 'black'
             rotate(object,{x: 0,y:0,z:0});
             move(object,{x:14.5,y:0,z:30},1500)
-            move(a18,{x:-3,y:20,z:20},200)
+            move(pointLightSpherePivot,{x:14.5,y:0,z:30},1500)
+            move(a18,{x:-2.4,y:20,z:20},200)
+            move(iphoneGlow,{x:-1.6,y:20,z:20},200)
             a18.position.set(-3,6,20)
             passiveRotation = false
-            textureCrossfade(screen,1000,'image', 'img/iphone-charged.png')
+            textureCrossfade(screen,1000,'image', 'img/screenshots/iphone-charged.png')
             changeColor(iphoneColorMeshes,iphoneColors.ultraMarine)
-            move(directionalLight,{x:-40,y:10,z:-10},1500)
+            move(directionalLight,{x:-40,y:10,z:-50},1500)
             if (prevState=='camHeader1') {
                 setTimeout(() => {
                     rendererDiv.style.zIndex = '5'
@@ -245,6 +282,7 @@ function specsScroll(e) {
             passiveRotation = false
             rendererDivBackground.style.background = 'snow'
             move(object, {x:4,y:-5.5,z:-2}, 1500)
+            move(pointLightSpherePivot,{x:4,y:-5.5,z:-2},1500)
             move(directionalLight,{x:0,y:0,z:-20},1500)
             setTimeout(() => {
                 rotate(object,{x:0,y:0,z:90});
@@ -254,10 +292,26 @@ function specsScroll(e) {
         if (specs[i]=='camHeader2') {
             rendererDiv.style.zIndex = '100'
             passiveRotation = false
-            move(object,{x:-8,y:0,z:25},1500)
-            textureCrossfade(screen,1000,'image', 'img/cam-screenshot-1.png')
+            move(object,{x:-8,y:-1,z:15},1500)
+            move(pointLightSpherePivot,{x:-8,y:0,z:25},1500)
+            textureCrossfade(screen,500,'image', 'img/screenshots/cam-screenshot-1.png')
             move(directionalLight,{x:-40,y:10,z:-10},1500)
-            rotate(object,{x: 0,y:170,z:0});
+            rotate(object,{x: 0,y:175,z:0});
+        }    
+        if (specs[i]=='camHeader3') {
+            rendererDiv.style.zIndex = '100'
+            passiveRotation = false
+            move(pointLightSpherePivot,{x:-8,y:0,z:25},1500)
+            textureCrossfade(screen,500,'image', 'img/screenshots/cam-screenshot-2.png')
+            move(directionalLight,{x:-40,y:10,z:-10},1500)
+        }
+        
+        if (specs[i]=='camHeader4') {
+            rendererDiv.style.zIndex = '100'
+            passiveRotation = false
+            move(pointLightSpherePivot,{x:-8,y:0,z:25},1500)
+            textureCrossfade(screen,500,'image', 'img/screenshots/cam-screenshot-3.png')
+            move(directionalLight,{x:-40,y:10,z:-10},1500)
         }    
     }
     
@@ -337,18 +391,19 @@ function textureCrossfade(o,duration,type,src) {
             if (type=='image') {
                 let source = src
                 let texture = textureLoader.load(source);
-                // texture.rotation = Math.PI;
+                // texture.rotation = Math.PI * .5;
                 // texture.center.set( 0.5, 0.5 );
                 texture.wrapT = THREE.RepeatWrapping;
                 texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
                 texture.flipY = false;
                 texture.repeat.set( 1, 1 );
-                let material = new THREE.MeshBasicMaterial({ 
+                let material = new THREE.MeshPhongMaterial({ 
                     map: texture,
-                    shininess: 200,
+                    shininess: 100,
                     reflectivity: 1,
-                    specular: 0xFFFFFF,
-                    fog: false
+                    specular: 0x000000,
+                    fog: false,
+                    emissive: 0x0f0f0f
                 });
                 o.material = material
             }
@@ -371,12 +426,7 @@ function textureCrossfade(o,duration,type,src) {
     })
     tweenTextureOpacity.start()
 }
-function hexToHSL(hex) {
-    const color = new THREE.Color(hex);
-    const hsl = {};
-    color.getHSL(hsl);
-    return hsl;
-}
+
 let designBatery = [document.getElementById('iphoneBatery'),document.getElementById('iphoneDesign')]
 designBatery.forEach((element) => {
     console.log(element)
@@ -393,3 +443,9 @@ designBatery.forEach((element) => {
     })
 })
 
+function hexToHSL(hex) {
+    const color = new THREE.Color(hex);
+    const hsl = {};
+    color.getHSL(hsl);
+    return hsl;
+}

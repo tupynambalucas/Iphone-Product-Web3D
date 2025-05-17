@@ -82,7 +82,8 @@ nav.fixed {
 #spec1{
     height: 94vh;
     width: 55vw;
-    background: black;
+    background: #000000;
+    background: linear-gradient(0deg,rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 50%, rgba(238, 148, 202, 1) 100%);
     align-items: center;
 }
 #spec1 div{
@@ -93,37 +94,45 @@ nav.fixed {
     flex-direction: column;
     justify-content: center;
 }
-#spec1 div img{
-    height: 40vh;
-    object-fit: cover;
-    width: 50vw;
+#spec1 div .a18-background{
+    position: relative;
+    height: 45vh;
+    width: 55vw;
+    background: transparent;
+    background-image: url('apple/img/a18-background2.png');
+    background-position-y:  -5vh;
+    background-position-x: -7vw;
+    background-size: 100%;
+    /* border-bottom: #0f0f0f solid 0.5vh; */
+    box-shadow: 1px 14px 38px -8px rgba(0,0,0,0.82);
+    -webkit-box-shadow: 1px 14px 38px -8px rgba(0,0,0,0.82);
+    -moz-box-shadow: 1px 14px 38px -8px rgba(0,0,0,0.82);
 }
 #spec1 div div{
-    height: 100vh;
-    align-items: center;
+    height: 55vh;
     text-align: left;
     width: 55vw;
+    background: #000000;
 }
 #spec1 div div div{
     width: 45vw;
     height: auto;
-    align-items: start;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
 }
-#spec1 div div div h1{
+
+#spec1 div div h1{
     color: #EE94CA;
-    font-size: 4vh;
-    margin-top: 2.5vh;
-}
-#spec1 div div h2{
-    margin-top: 1vh;
-    color: #EE94CA;
-    font-size: 5vh;
+    font-size: 6.5vh;
 }
 #spec1 div div p{
     margin-top: 6vh;
     color: gray;
     line-height: 2.6vh;
-    font-size: 2.7vh;
+    font-size: 2.2vh;
     letter-spacing: 0.05vw;
 }
 .spec2-header{
@@ -216,7 +225,7 @@ nav.fixed {
 }
 #spec2 div div .spec2-hours div p{
     color: black;
-    font-size: 2.2vh;
+    font-size: 2vh;
     margin: 0;
 }
 
@@ -256,37 +265,42 @@ nav.fixed {
     flex-direction: column;
     flex-wrap: nowrap;
     width: 57vw;
-    top: 12.5vh;
+    top: 5vh;
     left: 10vw;
     height: auto;
 }
 
 .cam-conteudo-title {
     width: 50vw;
-    font-size: 4vh;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
 }
 .cam-conteudo-title h1{
-    color: #EE94CA;
+    color: #D464AE;
+    font-size: 7vh;
 }
 .cam-conteudo-title h2{
     margin-top: 1vh;
+    font-size: 7vh;
     color: black;
 }
 .cam-conteudo p{
-    margin-top: 4vh;
+    margin-top: 3.5vh;
     font-size: 2.5vh;
-    line-height: 3.5vh;
+    color: gray;
+    line-height: 3.1vh;
     letter-spacing: 0.05vw;
+}
+.cam-conteudo p span{
+    color: black;
 }
 
 .cam-specs{
-    width: 40vw;
+    width: 30vw;
     position: absolute;
     top: 50%;
-    left: 10vw;
+    left: 18vw;
     margin-right: -50%;
     transform: translate(0%, -50%)
 }
@@ -299,7 +313,7 @@ nav.fixed {
 .cam-specs p{
     font-size: 3vh;
     color: gray;
-    margin-top: 2vh;
+    margin-top: 2.5vh;
 }
 .cam-specs span{
     color: black;

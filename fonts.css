@@ -1,30 +1,43 @@
-.gibson-thin{
-    font-family: "canada-type-gibson", sans-serif;
-    font-weight: 100;
+@font-face {
+    font-family: sfPro-Display-Semibold;
+    src: url('apple/fonts/SF-Pro-Display-Semibold.otf');
+}
+
+@font-face {
+    font-family: sfPro-Display-Regular;
+    src: url('apple/fonts/SF-Pro-Display-Regular.otf');
+}
+
+@font-face {
+    font-family: sfPro-Text-Semibold;
+    src: url('apple/fonts/SF-Pro-Text-Semibold.otf');
+}
+@font-face {
+    font-family: sfPro-Text-Regular;
+    src: url('apple/fonts/SF-Pro-Text-Regular.otf');
+}
+@font-face {
+    font-family: sfPro-Text-RegularItalic;
+    src: url('apple/fonts/SF-Pro-Text-RegularItalic.otf');
+}
+
+.sfPro-Display-Semibold{
+    font-family: "sfPro-Display-Semibold";
     font-style: normal;
 }
-.gibson-light{
-    font-family: "canada-type-gibson", sans-serif;
-    font-weight: 200;
+.sfPro-Display-Regular{
+    font-family: "sfPro-Display-Regular";
     font-style: normal;
 }
-.gibson-regular{
-    font-family: "canada-type-gibson", sans-serif;
-    font-weight: 400;
+.sfPro-Text-Semibold{
+    font-family: "sfPro-Text-Semibold";
     font-style: normal;
 }
-.gibson-medium{
-    font-family: "canada-type-gibson", sans-serif;
-    font-weight: 500;
+.sfPro-Text-Regular{
+    font-family: "sfPro-Text-Regular";
     font-style: normal;
 }
-.gibson-bold{
-    font-family: "canada-type-gibson", sans-serif;
-    font-weight: 700;
+.sfPro-Text-RegularItalic{
+    font-family: "sfPro-Text-RegularItalic";
     font-style: normal;
-}
-.gibson-italic{
-    font-family: "canada-type-gibson", sans-serif;
-    font-weight: 400;
-    font-style: italic;
 }
