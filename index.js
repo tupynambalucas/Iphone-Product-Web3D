@@ -13,14 +13,7 @@ let gltfLoader = new GLTFLoader()
 var clock = new THREE.Clock()
 let passiveRotation = false
 let camera,scene,renderer,delta,iphone,a18,iphoneGlow,directionalLight,tweenRotation,screen,pointLightSpherePivot
-let iphoneColorMeshes = new Array
-let iphoneColors = {
-    pink:'#EE94CA',
-    ultraMarine:'#6467E6',
-    grayedGreen:'#85ADAC',
-    white:'#E7E7E7',
-    black:'#0f0f0f'
-}
+
 
 let glowShaderMaterial
 let objects = [
@@ -28,6 +21,19 @@ let objects = [
         name: 'a18',
         object: undefined,
         position: new THREE.Vector3(-20.4,5.1,20)
+    },
+    {
+        name: 'iphone',
+        object: undefined,
+        position: new THREE.Vector3(14,0,30),
+        colors : {
+            pink:'#EE94CA',
+            ultraMarine:'#6467E6',
+            grayedGreen:'#85ADAC',
+            white:'#E7E7E7',
+            black:'#0f0f0f'
+        },
+        colorMeshes: new Array
     }
 ]
 
@@ -79,7 +85,6 @@ function resize3DWorld() {
     }
     objects.forEach((o) => {
         move(o.object, o.position, 200)
-        console.log(o.object)
     })
 }
 
@@ -123,7 +128,7 @@ function init() {
     // light.position.set( 0.5, 1, 0.75 );
     // scene.add( light );
     renderer = new THREE.WebGLRenderer( { antialias: true, alpha:true, powerPreference: "high-performance" } );
-    renderer.setPixelRatio( 2 );
+    renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.toneMapping = THREE.NeutralToneMapping;
     renderer.toneMappingExposure = 2
@@ -139,7 +144,9 @@ function init() {
         // called when the resource is loaded
         function ( gltf ) {
             iphone = gltf.scene; // THREE.Group
-            iphone.position.set(14,0,30)
+            let objectFind = objects.find((element) => element.name=='iphone');
+            objectFind.object = iphone
+            iphone.position.copy(objectFind.position)
             iphone.scale.set(1,1,1)
             // iphone.rotateY( Math.PI / -2 );
             // iphone.rotateZ( Math.PI / -2 );
@@ -156,7 +163,7 @@ function init() {
                 o.receiveShadow = true
                 if (o.isMesh) {
                     if (o.name == 'Object_67'||o.name =='Object_62' ||o.name =='Object_54'||o.name =='Object_52'||o.name =='Object_64'||o.name =='Object_46'||o.name =='Object_29'||o.name =='Object_33'||o.name =='Object_72'||o.name =='Object_86') {
-                        iphoneColorMeshes.push(o)
+                        objects[1].colorMeshes.push(o)
                     }
                     if (o.name=='Object_18') {
                         screen = o
@@ -172,7 +179,7 @@ function init() {
                     }
                 }
             })
-            changeColor(iphoneColorMeshes,iphoneColors.pink)
+            changeColor(objects[1].colorMeshes,objects[1].colors.pink)
             rotate(iphone,{x: 0,y:200,z:90});
             gltfLoader.load(
                 // resource URL
@@ -241,6 +248,7 @@ function resizeRendererToDisplaySize() {
 }
 
 addEventListener("wheel", specsScroll)
+addEventListener("keydown", specsScroll)
 let rendererDivBackground = document.getElementById('rendererDivBackground')
 let specs = [
     'specHeader1',
@@ -254,9 +262,20 @@ let i = 0
 let shouldRun = true
 let prevState
 function specsScroll(e) {
-    const scrollDirection = e.deltaY < 0 ? 1 : 0
+    let scrollDirection
+    if (e instanceof KeyboardEvent) {
+        if (e.key=='ArrowDown') {
+            scrollDirection = 0
+        }
+        if (e.key=='ArrowUp') {
+            scrollDirection = 1
+        }
+    } else {
+        scrollDirection = e.deltaY < 0 ? 1 : 0
+    }
     if(scrollDirection===0){
         // Down
+        console.log('down')
         i += 1
         if (i>=6) {
             shouldRun = false
@@ -277,8 +296,7 @@ function specsScroll(e) {
     } else {
         // Up
         i -= 1
-        console.log(specs[i])
-        console.log(i)
+
         console.log('up')
         if (i<0) {
             shouldRun = false
@@ -289,7 +307,6 @@ function specsScroll(e) {
             let scrollDiv = document.getElementById(specs[i])
             let rectViewport = scrollDiv.getBoundingClientRect();
             let top = rectViewport.top + scrollTop;
-            console.log(scrollDiv)
             setTimeout(function () {
                 window.scrollTo({ top: top, behavior: 'smooth'})
             },100);
@@ -305,7 +322,7 @@ function specsScroll(e) {
             move(pointLightSpherePivot,{x:-2.4,y:5.2,z:20},1500)
             move(iphoneGlow,{x:-1.6,y:6,z:20}, 750)
             textureCrossfade(screen,1000,'video', 'video/fortnite.mp4')
-            changeColor(iphoneColorMeshes,iphoneColors.pink)
+            changeColor(objects[1].colorMeshes,objects[1].colors.pink)
             move(directionalLight,{x:-40,y:10,z:-10}, 1500)
             setTimeout(() => {
                     rendererDiv.style.zIndex = '100'
@@ -320,7 +337,7 @@ function specsScroll(e) {
             move(iphoneGlow,{x:-1.6,y:20,z:20},200)
             passiveRotation = false
             textureCrossfade(screen,1000,'image', 'img/screenshots/iphone-charged.png')
-            changeColor(iphoneColorMeshes,iphoneColors.ultraMarine)
+            changeColor(objects[1].colorMeshes,objects[1].colors.ultraMarine)
             move(directionalLight,{x:-40,y:10,z:-50},1500)
             if (prevState=='camHeader1') {
                 setTimeout(() => {
@@ -341,7 +358,7 @@ function specsScroll(e) {
             move(directionalLight,{x:0,y:0,z:-20},1500)
             setTimeout(() => {
                 rotate(iphone,{x:0,y:0,z:90});
-                changeColor(iphoneColorMeshes,iphoneColors.pink)
+                changeColor(objects[1].colorMeshes,objects[1].colors.pink)
             }, "500");
         } 
         if (specs[i]=='camHeader2') {
@@ -401,7 +418,7 @@ function move(o, cords, duration ) {
 function changeColor(array,color) {
     let HSLColor = hexToHSL(color)
     array.forEach((o) =>{
-        if (color==iphoneColors.black) {
+        if (color==objects[1].colors.black) {
             directionalLight.intensity = 5
         } else {
             directionalLight.intensity = 0.7
@@ -494,7 +511,7 @@ designBatery.forEach((element) => {
         } else {
             rotate(iphone,{x: 0,y:190,z:0});
         }
-        changeColor(iphoneColorMeshes,iphoneColors.ultraMarine)
+        changeColor(objects[1].colorMeshes,objects[1].colors.ultraMarine)
     })
 })
 

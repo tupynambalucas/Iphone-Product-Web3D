@@ -66,6 +66,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
             animateCSS('#loading', 'fadeOut').then((message) => {
                 document.getElementById('loading').style.display = 'none'
+                alert('Essa experiência utiliza o scroll do mouse para funcionar, caso você não tenha um(ou o seu seja touch) utilize as setas do teclado, seta (cima) para subir e seta (baixo) para descer.')
             });
             $('nav.fixed').midnight();
         });
